@@ -44,7 +44,7 @@ async def main() -> None:
     await init_db()
     application = Application.builder().token(settings.TELEGRAM_BOT_TOKEN).build()
 
-    # Сбор данных от пользователя для запроса к мпстат (диалог)
+    # Добавляем обработчики
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', zapros_start)],
         states={
@@ -58,16 +58,31 @@ async def main() -> None:
     application.add_handler(conv_handler)
     application.add_handler(CommandHandler('check', check))
 
-    # Планируем ежедневную задачу по проверке новых товаров
+    # Планируем ежедневную задачу
     application.job_queue.run_daily(
         schedule_daily_check,
         time=datetime.time(hour=10, tzinfo=pytz.timezone('Europe/Moscow'))
     )
 
-    # Запуск бота
-    await application.run_polling()
+    # Инициализация приложения
+    await application.initialize()
 
+    # Запускаем polling и ждем
+    await application.start()
+    await application.updater.start_polling()  # Запуск polling
+    
 if __name__ == '__main__':
-    asyncio.run(main())
+    try:
+        # Получаем текущий event loop, если он уже запущен
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        # Если loop не запущен, создаем новый loop
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
 
-    #изменения для гит
+    # Запускаем приложение как таск
+    loop.create_task(main())
+
+    # Запускаем event loop, если он еще не запущен
+    if not loop.is_running():
+        loop.run_forever()
