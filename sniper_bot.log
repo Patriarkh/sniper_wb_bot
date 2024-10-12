@@ -1,0 +1,253 @@
+2024-10-12 16:54:49,747 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getMe "HTTP/1.1 200 OK"
+2024-10-12 16:54:49,839 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/deleteWebhook "HTTP/1.1 200 OK"
+2024-10-12 16:54:49,841 - telegram.ext.Application - INFO - Application started
+2024-10-12 16:54:55,688 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-12 16:54:55,690 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/Users/nikitaraikov/sniperbot/venv/lib/python3.12/site-packages/telegram/ext/_application.py", line 1335, in process_update
+    await coroutine
+  File "/Users/nikitaraikov/sniperbot/venv/lib/python3.12/site-packages/telegram/ext/_handlers/basehandler.py", line 158, in handle_update
+    return await self.callback(update, context)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: check() missing 1 required positional argument: 'text'
+2024-10-12 16:55:05,854 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-12 16:55:09,459 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-12 16:55:09,460 - telegram.ext.Application - INFO - Application is stopping. This might take a moment.
+2024-10-12 16:55:09,461 - telegram.ext.Application - INFO - Application.stop() complete
+2024-10-12 16:55:25,421 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getMe "HTTP/1.1 200 OK"
+2024-10-12 16:55:25,531 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/deleteWebhook "HTTP/1.1 200 OK"
+2024-10-12 16:55:25,533 - telegram.ext.Application - INFO - Application started
+2024-10-12 16:55:35,818 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-12 16:55:44,420 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-12 16:55:44,721 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-12 16:55:54,521 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-12 16:56:04,732 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-12 16:56:14,827 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-12 16:56:18,925 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-12 16:56:18,933 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/Users/nikitaraikov/sniperbot/venv/lib/python3.12/site-packages/telegram/ext/_application.py", line 1335, in process_update
+    await coroutine
+  File "/Users/nikitaraikov/sniperbot/venv/lib/python3.12/site-packages/telegram/ext/_handlers/basehandler.py", line 158, in handle_update
+    return await self.callback(update, context)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: check() missing 1 required positional argument: 'text'
+2024-10-12 16:56:29,027 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-12 16:57:20,614 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getMe "HTTP/1.1 200 OK"
+2024-10-12 16:57:20,713 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/deleteWebhook "HTTP/1.1 200 OK"
+2024-10-12 16:57:20,714 - telegram.ext.Application - INFO - Application started
+2024-10-12 16:57:24,728 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-12 16:57:24,842 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-12 16:57:32,516 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-12 16:57:32,519 - telegram.ext.Application - INFO - Application is stopping. This might take a moment.
+2024-10-12 16:57:32,519 - telegram.ext.Application - INFO - Application.stop() complete
+2024-10-12 17:19:03,038 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-12 17:21:07,330 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-12 17:21:07,634 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getMe "HTTP/1.1 200 OK"
+2024-10-12 17:21:07,637 - apscheduler.scheduler - INFO - Added job "schedule_daily_check" to job store "default"
+2024-10-12 17:21:07,637 - apscheduler.scheduler - INFO - Scheduler started
+2024-10-12 17:21:07,637 - telegram.ext.Application - INFO - Application started
+2024-10-12 17:21:07,752 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/deleteWebhook "HTTP/1.1 200 OK"
+2024-10-12 17:24:04,379 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-12 17:24:37,828 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-12 17:25:32,386 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-12 17:30:14,567 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-12 17:30:14,885 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getMe "HTTP/1.1 200 OK"
+2024-10-12 17:30:14,889 - apscheduler.scheduler - INFO - Added job "schedule_daily_check" to job store "default"
+2024-10-12 17:30:14,889 - apscheduler.scheduler - INFO - Scheduler started
+2024-10-12 17:30:14,889 - telegram.ext.Application - INFO - Application started
+2024-10-12 17:30:14,984 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/deleteWebhook "HTTP/1.1 200 OK"
+2024-10-12 17:33:31,967 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-12 17:37:41,421 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-12 17:43:16,785 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-12 17:43:17,105 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getMe "HTTP/1.1 200 OK"
+2024-10-12 17:43:17,108 - apscheduler.scheduler - INFO - Added job "schedule_daily_check" to job store "default"
+2024-10-12 17:43:17,108 - apscheduler.scheduler - INFO - Scheduler started
+2024-10-12 17:43:17,108 - telegram.ext.Application - INFO - Application started
+2024-10-12 17:44:23,898 - telegram.ext.Application - INFO - Application is stopping. This might take a moment.
+2024-10-12 17:44:23,902 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-10-12 17:44:23,913 - telegram.ext.Application - INFO - Application.stop() complete
+2024-10-12 17:44:34,278 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-12 17:44:34,562 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getMe "HTTP/1.1 200 OK"
+2024-10-12 17:44:34,564 - apscheduler.scheduler - INFO - Added job "schedule_daily_check" to job store "default"
+2024-10-12 17:44:34,564 - apscheduler.scheduler - INFO - Scheduler started
+2024-10-12 17:44:34,565 - telegram.ext.Application - INFO - Application started
+2024-10-12 17:45:13,665 - telegram.ext.Application - INFO - Application is stopping. This might take a moment.
+2024-10-12 17:45:13,667 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-10-12 17:45:13,678 - telegram.ext.Application - INFO - Application.stop() complete
+2024-10-12 17:46:35,233 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-12 17:47:28,388 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-13 00:48:52,324 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-13 00:50:59,570 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-13 00:51:16,035 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-13 00:51:55,952 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-13 00:52:28,760 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-13 00:52:28,760 - asyncio - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-1' coro=<main() done, defined at /Users/nikitaraikov/sniperbot/sniper.py:43> exception=RuntimeError('Cannot close a running event loop')>
+Traceback (most recent call last):
+  File "/Users/nikitaraikov/sniperbot/venv/lib/python3.12/site-packages/telegram/ext/_application.py", line 1079, in __run
+    loop.run_until_complete(self.initialize())
+  File "/opt/homebrew/Cellar/python@3.12/3.12.4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 663, in run_until_complete
+    self._check_running()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 622, in _check_running
+    raise RuntimeError('This event loop is already running')
+RuntimeError: This event loop is already running
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/nikitaraikov/sniperbot/venv/lib/python3.12/site-packages/telegram/ext/_application.py", line 1104, in __run
+    loop.run_until_complete(self.shutdown())
+  File "/opt/homebrew/Cellar/python@3.12/3.12.4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 663, in run_until_complete
+    self._check_running()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 622, in _check_running
+    raise RuntimeError('This event loop is already running')
+RuntimeError: This event loop is already running
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/nikitaraikov/sniperbot/sniper.py", line 68, in main
+    await application.run_polling()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaraikov/sniperbot/venv/lib/python3.12/site-packages/telegram/ext/_application.py", line 881, in run_polling
+    return self.__run(
+           ^^^^^^^^^^^
+  File "/Users/nikitaraikov/sniperbot/venv/lib/python3.12/site-packages/telegram/ext/_application.py", line 1109, in __run
+    loop.close()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/unix_events.py", line 68, in close
+    super().close()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/selector_events.py", line 101, in close
+    raise RuntimeError("Cannot close a running event loop")
+RuntimeError: Cannot close a running event loop
+2024-10-13 00:53:37,053 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-13 00:53:37,054 - asyncio - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-1' coro=<main() done, defined at /Users/nikitaraikov/sniperbot/sniper.py:43> exception=RuntimeError('This Application was not initialized via `Application.initialize`!')>
+Traceback (most recent call last):
+  File "/Users/nikitaraikov/sniperbot/sniper.py", line 68, in main
+    await application.start()
+  File "/Users/nikitaraikov/sniperbot/venv/lib/python3.12/site-packages/telegram/ext/_application.py", line 627, in start
+    self._check_initialized()
+  File "/Users/nikitaraikov/sniperbot/venv/lib/python3.12/site-packages/telegram/ext/_application.py", line 480, in _check_initialized
+    raise RuntimeError(
+RuntimeError: This Application was not initialized via `Application.initialize`!
+2024-10-13 00:54:27,841 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-13 00:54:28,134 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getMe "HTTP/1.1 200 OK"
+2024-10-13 00:54:28,136 - apscheduler.scheduler - INFO - Added job "schedule_daily_check" to job store "default"
+2024-10-13 00:54:28,136 - apscheduler.scheduler - INFO - Scheduler started
+2024-10-13 00:54:28,137 - telegram.ext.Application - INFO - Application started
+2024-10-13 00:54:28,224 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/deleteWebhook "HTTP/1.1 200 OK"
+2024-10-13 00:54:28,485 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:54:28,490 - asyncio - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-1' coro=<main() done, defined at /Users/nikitaraikov/sniperbot/sniper.py:43> exception=AttributeError("'Updater' object has no attribute 'idle'")>
+Traceback (most recent call last):
+  File "/Users/nikitaraikov/sniperbot/sniper.py", line 74, in main
+    await application.updater.idle()
+          ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Updater' object has no attribute 'idle'
+2024-10-13 00:54:28,643 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 00:54:28,825 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 00:54:28,999 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 00:54:38,583 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:54:48,674 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:54:57,417 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:54:57,694 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 00:56:48,917 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-13 00:56:49,219 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getMe "HTTP/1.1 200 OK"
+2024-10-13 00:56:49,222 - apscheduler.scheduler - INFO - Added job "schedule_daily_check" to job store "default"
+2024-10-13 00:56:49,222 - apscheduler.scheduler - INFO - Scheduler started
+2024-10-13 00:56:49,222 - telegram.ext.Application - INFO - Application started
+2024-10-13 00:56:49,310 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/deleteWebhook "HTTP/1.1 200 OK"
+2024-10-13 00:56:58,382 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:56:58,385 - asyncio - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-1' coro=<main() done, defined at /Users/nikitaraikov/sniperbot/sniper.py:43> exception=AttributeError("'Application' object has no attribute 'idle'")>
+Traceback (most recent call last):
+  File "/Users/nikitaraikov/sniperbot/sniper.py", line 73, in main
+    await application.idle()  # Ожидание завершения работы
+          ^^^^^^^^^^^^^^^^
+AttributeError: 'Application' object has no attribute 'idle'
+2024-10-13 00:56:58,673 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 00:57:08,560 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:57:12,303 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:57:12,579 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 00:57:22,390 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:57:32,526 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:57:42,613 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:58:15,680 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-13 00:58:15,947 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getMe "HTTP/1.1 200 OK"
+2024-10-13 00:58:15,948 - apscheduler.scheduler - INFO - Added job "schedule_daily_check" to job store "default"
+2024-10-13 00:58:15,948 - apscheduler.scheduler - INFO - Scheduler started
+2024-10-13 00:58:15,948 - telegram.ext.Application - INFO - Application started
+2024-10-13 00:58:16,032 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/deleteWebhook "HTTP/1.1 200 OK"
+2024-10-13 00:58:21,504 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:58:21,781 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 00:58:29,550 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:58:29,849 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 00:58:39,409 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:58:39,760 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 00:58:49,496 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:58:59,588 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:59:09,683 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:59:19,889 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:59:29,976 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:59:40,063 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:59:50,149 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:59:53,646 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 00:59:54,096 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:00:01,075 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 01:00:01,076 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "/Users/nikitaraikov/sniperbot/venv/lib/python3.12/site-packages/telegram/ext/_application.py", line 1335, in process_update
+    await coroutine
+  File "/Users/nikitaraikov/sniperbot/venv/lib/python3.12/site-packages/telegram/ext/_handlers/conversationhandler.py", line 857, in handle_update
+    new_state: object = await handler.handle_update(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaraikov/sniperbot/venv/lib/python3.12/site-packages/telegram/ext/_handlers/basehandler.py", line 158, in handle_update
+    return await self.callback(update, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikitaraikov/sniperbot/formirovanie_zaprosa.py", line 158, in get_diapazon_revenue
+    yesterday = (datetime.today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
+                 ^^^^^^^^^^^^^^
+AttributeError: module 'datetime' has no attribute 'today'
+2024-10-13 01:00:11,244 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 01:02:12,234 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-10-13 01:02:12,620 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getMe "HTTP/1.1 200 OK"
+2024-10-13 01:02:12,623 - apscheduler.scheduler - INFO - Added job "schedule_daily_check" to job store "default"
+2024-10-13 01:02:12,623 - apscheduler.scheduler - INFO - Scheduler started
+2024-10-13 01:02:12,623 - telegram.ext.Application - INFO - Application started
+2024-10-13 01:02:12,715 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/deleteWebhook "HTTP/1.1 200 OK"
+2024-10-13 01:02:15,942 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 01:02:16,122 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:02:17,440 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 01:02:17,553 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:02:19,817 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 01:02:20,010 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:02:25,733 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 01:02:26,015 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:02:34,512 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 01:02:38,053 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:02:47,916 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 01:02:58,053 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 01:03:08,290 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 01:03:12,255 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 01:03:12,533 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:03:18,024 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 01:03:18,376 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:03:25,532 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 01:03:25,836 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:03:31,741 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 01:03:36,023 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:03:36,449 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:03:36,704 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:03:37,525 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:03:38,202 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:03:38,660 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:03:39,044 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:03:39,508 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:03:40,554 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:03:41,178 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:03:41,438 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
+2024-10-13 01:03:45,669 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 01:03:55,762 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 01:03:58,561 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/getUpdates "HTTP/1.1 200 OK"
+2024-10-13 01:03:58,857 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7612189895:AAES3l48KZGmcLwnckpriGB4oYrlWJIJ0Fc/sendMessage "HTTP/1.1 200 OK"
