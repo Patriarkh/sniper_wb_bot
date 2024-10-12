@@ -1,7 +1,14 @@
 settings.py
+formirovanie_zaprosa.py
+helpers.py
+products.db
+sniper_bot.log
 *.log
 .vscode/
 .idea/
-env/
+venv/
 __pycache__/
 .DS_store
+test.txt
+zapros.txt
+*.pyc
