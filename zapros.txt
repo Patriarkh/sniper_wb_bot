@@ -1,0 +1,45 @@
+# URL для запроса данных категории с параметрами дат в URL
+url = 'https://mpstats.io/api/wb/get/category?path=Женщинам&d1=2024-09-09&d2=2024-10-08'
+
+# Данные для POST-запроса (параметры пагинации и фильтрации)
+json_data = {
+    'startRow': 0,        # Начальная строка для получения данных
+    'endRow': 1000,       # Получить до 1000 товаров
+    'filterModel': {
+        'firstcommentdate': {   # Поле для фильтрации по дате первого отзыва
+            'filterType': 'date',  # Тип фильтрации - дата
+            'type': 'greaterThan',     # Фильтр по диапазону дат
+            'dateFrom': '2024-09-18',  # Дата начала диапазона
+        },
+        'revenue': {
+            'filterType': 'number',  # Тип фильтра - число
+            'type': 'inRange',       # Фильтр по диапазону
+            'filter': 200000,        # Минимальная выручка
+            'filterTo': 1200000      # Максимальная выручка
+        }
+    }
+}
+
+# Заголовки запроса
+headers = {
+    'X-Mpstats-TOKEN': settings.MPSTATS_API_KEY,  # Ваш API ключ
+    'Content-Type': 'application/json'
+}
+
+# Отправка POST-запроса
+response = requests.post(url, headers=headers, data=json.dumps(json_data))
+
+# Проверка результата
+if response.status_code == 200:
+    data = response.json().get('data', [])
+    
+    # Выводим только название товара, выручку и дату первого отзыва
+    for item in data:
+        name = item.get('name', 'Нет названия')
+        revenue = item.get('revenue', 'Нет данных о выручке')
+        first_comment_date = item.get('firstcommentdate', 'Нет данных о дате первого отзыва')
+        
+        pprint(f"Название товара: {name}, Выручка: {revenue}, Дата первого отзыва: {first_comment_date}")
+else:
+    print(f"Ошибка: {response.status_code}")
+    print(response.text)  # Выводим текст ошибки
