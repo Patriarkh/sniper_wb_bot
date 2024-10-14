@@ -105,3 +105,4 @@ async def check_for_new_items(context: CallbackContext) -> None:
             await log_message(context, chat_id=380441767, message="Товары не найдены.")
     else:
         await log_message(context, chat_id=380441767, message=f"Ошибка API: {response.status_code}\n{response.text}")
+
