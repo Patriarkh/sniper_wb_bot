@@ -5,4 +5,4 @@ requirements.txt
 settings.py
 sniper_bot.log
 venv
-prodducts.db
+products.db
