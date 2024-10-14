@@ -94,5 +94,3 @@ if __name__ == '__main__':
     # Запускаем event loop, если он еще не запущен
     if not loop.is_running():
         loop.run_forever()
-
-

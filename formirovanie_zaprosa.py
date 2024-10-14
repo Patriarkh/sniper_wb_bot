@@ -133,5 +133,3 @@ async def get_diapazon_revenue(update: Update, context: CallbackContext) -> int:
 async def cancel(update: Update, context: CallbackContext) -> int:
     await update.message.reply_text("Операция отменена.")
     return ConversationHandler.END
-
-
