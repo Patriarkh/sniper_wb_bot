@@ -7,17 +7,16 @@ import datetime
 from telegram import Update
 import settings
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ConversationHandler, CallbackContext
-from formirovanie_zaprosa import zapros_start, get_quantity_goods, get_otzyv, get_diapazon_revenue, cancel, init_db, check_for_new_items
-from helpers import send_long_message, log_message
+from formirovanie_zaprosa import zapros_start, get_quantity_goods, get_otzyv, get_diapazon_revenue, cancel, init_db
+from helpers import log_message
+from every_day import check_for_new_items
 
 
-async def check(update: Update, context: CallbackContext):
-    chat_id = update.effective_chat.id
-    await context.bot.send_message(chat_id=chat_id, text="Бот запущен")
+
 
 # Настройка логирования
 logging.basicConfig(
-    level=logging.INFO,  # Уровень логирования: INFO (можно заменить на DEBUG для более подробных логов)
+    level=logging.INFO, 
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
         logging.FileHandler("sniper_bot.log"),  # Логи будут сохраняться в файл
@@ -27,7 +26,13 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+# Функция для проверки запуска бота
+async def check(update: Update, context: CallbackContext):
+    chat_id = update.effective_chat.id
+    await context.bot.send_message(chat_id=chat_id, text="Бот запущен")
 
+
+# Ежедневная проверка по базе данных
 async def schedule_daily_check(context: CallbackContext):
     try:
         await check_for_new_items(context)
@@ -58,7 +63,10 @@ async def main() -> None:
     application.add_handler(conv_handler)
     application.add_handler(CommandHandler('check', check))
 
-    # Планируем ежедневную задачу
+
+    
+
+    # Запуск проверки по базе данныех в 10:00 мск
     application.job_queue.run_daily(
         schedule_daily_check,
         time=datetime.time(hour=10, tzinfo=pytz.timezone('Europe/Moscow'))
