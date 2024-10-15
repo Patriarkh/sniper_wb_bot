@@ -1,4 +1,5 @@
 import logging
+import asyncio
 import requests
 import json
 import settings
@@ -109,9 +110,10 @@ async def check_for_new_items(context: CallbackContext) -> None:
                     else:
                         # Если фото нет, отправляем только текстовое сообщение
                         await send_long_message(380441767, message, context)
+                    # Добавляем задержку между отправками
+                    await asyncio.sleep(0.5)
 
-                # Отправляем сообщение
-                await send_long_message(380441767, message, context)
+              
             else:
                 # Логирование, если новых товаров не найдено
                 await log_message(context, chat_id=380441767, message="Новых товаров не найдено.")

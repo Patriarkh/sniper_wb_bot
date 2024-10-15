@@ -1,4 +1,5 @@
 import logging
+import asyncio
 import requests
 import json
 import settings
@@ -99,7 +100,6 @@ async def get_diapazon_revenue(update: Update, context: CallbackContext) -> int:
     if response.status_code == 200:
         data = response.json().get('data', [])
         if data:
-            message = "Вот список товаров:\n\n"
             # **Открываем соединение с базой данных**
             async with aiosqlite.connect('products.db') as db:
                 for item in data:
@@ -132,10 +132,13 @@ async def get_diapazon_revenue(update: Update, context: CallbackContext) -> int:
                     else:
                         await update.message.reply_text(message)  # Если нет фото, отправляем только текст
 
+                    # Добавляем задержку между отправками
+                    await asyncio.sleep(0.5)  
+
+
                 # **Фиксируем изменения в базе данных**
                 await db.commit()
-            # Разделение и отправка длинного сообщения
-            await send_long_message(update.effective_chat.id, message, context)
+            
         else:
             await update.message.reply_text("Товары не найдены.")
     else:
