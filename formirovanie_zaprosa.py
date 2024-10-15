@@ -108,11 +108,30 @@ async def get_diapazon_revenue(update: Update, context: CallbackContext) -> int:
                     first_comment_date = item.get('firstcommentdate', 'Нет данных о дате первого отзыва')
                     product_id = item.get('id', 'Нет артикула')
                     product_url = item.get('url', 'Нет ссылки')
-                    message += f"Название товара: {name}\n, Выручка: {revenue}\n, Дата первого отзыва: {first_comment_date}\n, Артиукл: {product_id}\n, Ссылка на вб: {product_url}\n\n"
+                    thumb_url = "https:" + item.get('thumb_middle', '')  # Используем thumb_middle для фото среднего размера
+
                     await db.execute('''
                             INSERT INTO products (name, revenue, first_comment_date, product_id, product_url)
                             VALUES (?, ?, ?, ?, ?)
                         ''', (name, revenue, first_comment_date, product_id, product_url))
+                     # Отправляем сообщение о товаре с фото
+                    message = (
+                        f"Название товара: {name}\n"
+                        f"Выручка: {revenue}\n"
+                        f"Дата первого отзыва: {first_comment_date}\n"
+                        f"Артикул: {product_id}\n"
+                        f"Ссылка на товар: {product_url}\n"
+                    )
+                    # Если есть фото, отправляем его с сообщением
+                    if thumb_url:
+                        try:
+                            await context.bot.send_photo(chat_id=update.effective_chat.id, photo=thumb_url, caption=message)
+                        except Exception as e:
+                            logger.error(f"Ошибка при отправке фото: {e}")
+                            await update.message.reply_text(message)  # Отправляем сообщение без фото при ошибке
+                    else:
+                        await update.message.reply_text(message)  # Если нет фото, отправляем только текст
+
                 # **Фиксируем изменения в базе данных**
                 await db.commit()
             # Разделение и отправка длинного сообщения

@@ -88,14 +88,28 @@ async def check_for_new_items(context: CallbackContext) -> None:
                 await db.commit()
 
             if new_items:
-                # Формируем сообщение с новыми товарами
-                message = "Найдены новые товары:\n\n"
                 for item in new_items:
-                    message += f"Название товара: {item.get('name', 'Нет названия')}\n"
-                    message += f"Выручка: {item.get('revenue', 'Нет данных')}\n"
-                    message += f"Дата первого отзыва: {item.get('firstcommentdate', 'Нет данных')}\n"
-                    message += f"Артикул: {item.get('id', 'Нет артикула')}\n"
-                    message += f"Ссылка на товар: {item.get('url', 'Нет ссылки')}\n\n"
+                    message = (
+                        f"Название товара: {item.get('name', 'Нет названия')}\n"
+                        f"Выручка: {item.get('revenue', 'Нет данных')}\n"
+                        f"Дата первого отзыва: {item.get('firstcommentdate', 'Нет данных')}\n"
+                        f"Артикул: {item.get('id', 'Нет артикула')}\n"
+                        f"Ссылка на товар: {item.get('url', 'Нет ссылки')}\n"
+                    )
+                    # Получаем URL изображения товара
+                    photo_url = "https:" + item.get('thumb_middle', '')  # Используем thumb_middle для среднего размера изображения
+                    if photo_url:
+                        # Отправляем сообщение с фотографией
+                        try:
+                            await context.bot.send_photo(chat_id=380441767, photo=photo_url, caption=message)
+                        except Exception as e:
+                            # В случае ошибки отправляем текстовое сообщение и логируем ошибку
+                            await send_long_message(380441767, message, context)
+                            logger.error(f"Ошибка при отправке фото: {e}")
+                    else:
+                        # Если фото нет, отправляем только текстовое сообщение
+                        await send_long_message(380441767, message, context)
+
                 # Отправляем сообщение
                 await send_long_message(380441767, message, context)
             else:
