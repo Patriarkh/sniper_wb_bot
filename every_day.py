@@ -111,7 +111,7 @@ async def check_for_new_items(context: CallbackContext) -> None:
                         # Если фото нет, отправляем только текстовое сообщение
                         await send_long_message(380441767, message, context)
                     # Добавляем задержку между отправками
-                    await asyncio.sleep(0.5)
+                    await asyncio.sleep(1.5)
 
               
             else:

@@ -133,7 +133,7 @@ async def get_diapazon_revenue(update: Update, context: CallbackContext) -> int:
                         await update.message.reply_text(message)  # Если нет фото, отправляем только текст
 
                     # Добавляем задержку между отправками
-                    await asyncio.sleep(0.5)  
+                    await asyncio.sleep(1.5)  
 
 
                 # **Фиксируем изменения в базе данных**
