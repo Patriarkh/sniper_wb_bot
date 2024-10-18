@@ -8,7 +8,7 @@ from telegram.ext import CallbackContext, ConversationHandler
 import datetime
 import aiosqlite
 from helpers import send_long_message, log_message
-
+from formirovanie_zaprosa import save_product_for_user
 
 # Настройка логирования
 logger = logging.getLogger(__name__)
@@ -19,7 +19,7 @@ last_30_days_from_today = (datetime.datetime.today() - datetime.timedelta(days=3
 
 
 
-async def check_for_new_items(context: CallbackContext) -> None:
+async def check_for_new_items(context: CallbackContext, chat_id, user_id) -> None:
     """Функция для проверки новых товаров и добавления их в базу данных."""
     
     two_weeks_ago_from_today = (datetime.datetime.today() - datetime.timedelta(days=14)).strftime('%Y-%m-%d')
@@ -70,23 +70,13 @@ async def check_for_new_items(context: CallbackContext) -> None:
                         continue
 
                     # Проверяем, есть ли товар в базе данных
-                    cursor = await db.execute('SELECT id FROM products WHERE product_id = ?', (product_id,))
+                    cursor = await db.execute('SELECT id FROM products WHERE product_id = ? AND user_id = ?', (product_id, user_id))
                     existing_item = await cursor.fetchone()
 
                     if not existing_item:
                         # Товар новый, добавляем его в базу и собираем для уведомления
                         new_items.append(item)
-                        await db.execute('''
-                            INSERT INTO products (name, revenue, first_comment_date, product_id, product_url)
-                            VALUES (?, ?, ?, ?, ?)
-                        ''', (
-                            item.get('name', 'Нет названия'),
-                            item.get('revenue', 0),
-                            item.get('firstcommentdate', ''),
-                            product_id,
-                            item.get('url', '')
-                        ))
-                await db.commit()
+                        await save_product_for_user(item, user_id)
 
             if new_items:
                 for item in new_items:
@@ -102,7 +92,7 @@ async def check_for_new_items(context: CallbackContext) -> None:
                     if photo_url:
                         # Отправляем сообщение с фотографией
                         try:
-                            await context.bot.send_photo(chat_id=380441767, photo=photo_url, caption=message)
+                            await context.bot.send_photo(chat_id=chat_id, photo=photo_url, caption=message)
                         except Exception as e:
                             # В случае ошибки отправляем текстовое сообщение и логируем ошибку
                             await send_long_message(380441767, message, context)
@@ -116,9 +106,9 @@ async def check_for_new_items(context: CallbackContext) -> None:
               
             else:
                 # Логирование, если новых товаров не найдено
-                await log_message(context, chat_id=380441767, message="Новых товаров не найдено.")
+                await log_message(context, chat_id=chat_id, message="Новых товаров не найдено.")
         else:
-            await log_message(context, chat_id=380441767, message="Товары не найдены.")
+            await log_message(context, chat_id=chat_id, message="Товары не найдены.")
     else:
-        await log_message(context, chat_id=380441767, message=f"Ошибка API: {response.status_code}\n{response.text}")
+        await log_message(context, chat_id=chat_id, message=f"Ошибка API: {response.status_code}\n{response.text}")
 

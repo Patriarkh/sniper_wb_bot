@@ -6,15 +6,16 @@ import datetime
 
 from telegram import Update
 import settings
+import aiosqlite
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ConversationHandler, CallbackContext
 from formirovanie_zaprosa import zapros_start, get_quantity_goods, get_otzyv, get_diapazon_revenue, cancel, init_db
 from helpers import log_message
 from every_day import check_for_new_items
+from common import register_user, init_db
 
 
 
 
-# Настройка логирования51365136888777Df
 
 logging.basicConfig(
     level=logging.INFO, 
@@ -33,13 +34,22 @@ async def check(update: Update, context: CallbackContext):
     await context.bot.send_message(chat_id=chat_id, text="Бот запущен")
 
 
+
+
 # Ежедневная проверка по базе данных
 async def schedule_daily_check(context: CallbackContext):
-    try:
-        await check_for_new_items(context)
-        await log_message(context, chat_id=380441767, message="Проверка новых товаров выполнена успешно.")
-    except Exception as e:
-        await log_message(context, chat_id=380441767, message=f"Ошибка при проверке новых товаров: {e}")
+    async with aiosqlite.connect('products.db') as db:
+        cursor = await db.execute('SELECT * FROM users')
+        users = await cursor.fetchall()
+
+        for user in users:
+            user_id, username, chat_id, created_at = user
+            try:
+                await check_for_new_items(context, chat_id, user_id)
+                await log_message(context, chat_id=chat_id, message="Проверка новых товаров выполнена успешно.")
+            except Exception as e:
+                await log_message(context, chat_id=chat_id, message=f"Ошибка при проверке новых товаров: {e}")
+
 
 
 
@@ -69,9 +79,10 @@ async def main() -> None:
 
     # Запуск проверки по базе данныех в 10:00 мск
     application.job_queue.run_daily(
-        schedule_daily_check,
-        time=datetime.time(hour=10, tzinfo=pytz.timezone('Europe/Moscow'))
-    )
+    schedule_daily_check,
+    time=datetime.time(hour=10, tzinfo=pytz.timezone('Europe/Moscow'))
+)
+
 
     # Инициализация приложения
     await application.initialize()

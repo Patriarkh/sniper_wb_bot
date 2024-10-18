@@ -8,6 +8,8 @@ from telegram.ext import CallbackContext, ConversationHandler
 import datetime
 import aiosqlite
 from helpers import send_long_message, log_message
+from common import register_user, init_db
+
 
 
 # Настройка логирования
@@ -17,9 +19,34 @@ logger = logging.getLogger(__name__)
 # Константы этапов диалога
 SET_ITEMS, SET_DATE, SET_REVENUE = range(3)
 
+
+async def save_product_for_user(item, user_id):
+    async with aiosqlite.connect('products.db') as db:
+        await db.execute('''
+            INSERT INTO products (name, revenue, first_comment_date, product_id, product_url, user_id)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (
+            item.get('name', 'Нет названия'),
+            item.get('revenue', 0),
+            item.get('firstcommentdate', ''),
+            item.get('id', ''),
+            item.get('url', ''),
+            user_id
+        ))
+        await db.commit()
+
+
 # Функция инициализации базы данных
 async def init_db():
     async with aiosqlite.connect('products.db') as db:
+        await db.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                user_id INTEGER PRIMARY KEY,
+                username TEXT,
+                chat_id INTEGER,
+                created_at TEXT
+            )
+        ''')
         await db.execute('''
             CREATE TABLE IF NOT EXISTS products (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,7 +54,9 @@ async def init_db():
                 revenue REAL,
                 first_comment_date TEXT,
                 product_id INTEGER,
-                product_url TEXT
+                product_url TEXT,
+                user_id INTEGER,
+                FOREIGN KEY(user_id) REFERENCES users(user_id)
             )
         ''')
         await db.commit()
@@ -35,8 +64,10 @@ async def init_db():
 
 
 
+
 # Запрашиваем количество товаров
 async def zapros_start(update: Update, context: CallbackContext) -> int:
+    await register_user(update, context)
     await update.message.reply_text("Введите количество товаров (например, 10):")
     return SET_ITEMS
 
@@ -54,6 +85,7 @@ async def get_otzyv(update: Update, context: CallbackContext) -> int:
 
 # Получаем выручку и отправляем запрос
 async def get_diapazon_revenue(update: Update, context: CallbackContext) -> int:
+    user_id = update.effective_user.id
     revenue_range = update.message.text.split()
     context.user_data['revenue_min'] = int(revenue_range[0])
     context.user_data['revenue_max'] = int(revenue_range[1])
@@ -110,10 +142,8 @@ async def get_diapazon_revenue(update: Update, context: CallbackContext) -> int:
                     product_url = item.get('url', 'Нет ссылки')
                     thumb_url = "https:" + item.get('thumb_middle', '')  # Используем thumb_middle для фото среднего размера
 
-                    await db.execute('''
-                            INSERT INTO products (name, revenue, first_comment_date, product_id, product_url)
-                            VALUES (?, ?, ?, ?, ?)
-                        ''', (name, revenue, first_comment_date, product_id, product_url))
+                     # Сохраняем товар в базу данных под конкретного пользователя
+                    await save_product_for_user(item, user_id)
                      # Отправляем сообщение о товаре с фото
                     message = (
                         f"Название товара: {name}\n"
@@ -135,9 +165,6 @@ async def get_diapazon_revenue(update: Update, context: CallbackContext) -> int:
                     # Добавляем задержку между отправками
                     await asyncio.sleep(1.5)  
 
-
-                # **Фиксируем изменения в базе данных**
-                await db.commit()
             
         else:
             await update.message.reply_text("Товары не найдены.")
