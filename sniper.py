@@ -14,7 +14,7 @@ from every_day import check_for_new_items
 
 
 
-# Настройка логирования51365136888777Df
+
 
 logging.basicConfig(
     level=logging.INFO, 
