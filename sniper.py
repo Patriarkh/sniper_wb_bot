@@ -16,6 +16,10 @@ from common import register_user, init_db
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0fe1941186e0c5e3260a9e80cc0c34491c7664ca
 
 logging.basicConfig(
     level=logging.INFO, 
