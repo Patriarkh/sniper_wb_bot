@@ -11,15 +11,10 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 from formirovanie_zaprosa import zapros_start, get_quantity_goods, get_otzyv, get_diapazon_revenue, cancel, init_db
 from helpers import log_message
 from every_day import check_for_new_items
-from common import register_user, init_db
+from database_utils import init_db
 
 
 
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 0fe1941186e0c5e3260a9e80cc0c34491c7664ca
 
 logging.basicConfig(
     level=logging.INFO, 
@@ -38,21 +33,37 @@ async def check(update: Update, context: CallbackContext):
     await context.bot.send_message(chat_id=chat_id, text="Бот запущен")
 
 
+async def instruction(update: Update, context: CallbackContext):
+    chat_id = update.effective_chat.id
+    await context.bot.send_message(chat_id=chat_id, text="При первичном формировании запроса, вы можете вписать любые данные.\n\nДалее ежедневная отправка товаров работает только по фильтрам дата первого отзыва за последние две недели и диапазон выручки от 200 000 рублей до 1 200 000 рублей")
+
+
 
 
 # Ежедневная проверка по базе данных
 async def schedule_daily_check(context: CallbackContext):
     async with aiosqlite.connect('products.db') as db:
-        cursor = await db.execute('SELECT * FROM users')
+        cursor = await db.execute('SELECT user_id, username, chat_id, created_at FROM users')
         users = await cursor.fetchall()
 
+        # Создаем список задач для параллельного выполнения
+        tasks = []
         for user in users:
             user_id, username, chat_id, created_at = user
-            try:
-                await check_for_new_items(context, chat_id, user_id)
+            tasks.append(check_for_new_items(context, chat_id, user_id))
+
+        # Параллельное выполнение всех задач
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+
+        # Обработка результатов и логирование ошибок
+        for result, user in zip(results, users):
+            user_id, username, chat_id, created_at = user
+            if isinstance(result, Exception):
+                await log_message(context, chat_id=chat_id, message=f"Ошибка при проверке новых товаров: {result}")
+            else:
                 await log_message(context, chat_id=chat_id, message="Проверка новых товаров выполнена успешно.")
-            except Exception as e:
-                await log_message(context, chat_id=chat_id, message=f"Ошибка при проверке новых товаров: {e}")
+
+
 
 
 
@@ -77,6 +88,7 @@ async def main() -> None:
 
     application.add_handler(conv_handler)
     application.add_handler(CommandHandler('check', check))
+    application.add_handler(CommandHandler('instruction', instruction))
 
 
     
@@ -84,7 +96,7 @@ async def main() -> None:
     # Запуск проверки по базе данныех в 10:00 мск
     application.job_queue.run_daily(
     schedule_daily_check,
-    time=datetime.time(hour=10, tzinfo=pytz.timezone('Europe/Moscow'))
+    time=datetime.time(hour=14, minute=30, tzinfo=pytz.timezone('Europe/Moscow'))
 )
 
 
