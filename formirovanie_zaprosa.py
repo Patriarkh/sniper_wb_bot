@@ -31,7 +31,7 @@ async def get_quantity_goods(update: Update, context: CallbackContext) -> int:
 # Получаем дату
 async def get_otzyv(update: Update, context: CallbackContext) -> int:
     context.user_data['date'] = update.message.text
-    await update.message.reply_text("Укажите диапазон выручки в формате: минимальная выручка максимальная выручка")
+    await update.message.reply_text("Укажите диапазон выручки в формате: минимальная выручка максимальная выручка. Пример: 200000 1200000")
     return SET_REVENUE
 
 # Получаем диапазон выручки и сохраняем его в базу данных

@@ -35,7 +35,7 @@ async def check(update: Update, context: CallbackContext):
 
 async def instruction(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
-    await context.bot.send_message(chat_id=chat_id, text="При первичном формировании запроса, вы можете вписать любые данные.\n\nДалее ежедневная отправка товаров работает только по фильтрам дата первого отзыва за последние две недели и диапазон выручки от 200 000 рублей до 1 200 000 рублей")
+    await context.bot.send_message(chat_id=chat_id, text="При первичном формировании запроса, вы можете вписать любые данные.\n\nДалее при ежедневной отправке, бот будет отправлять те товары, у которых первый отзыв появился после даты, которая была две недели назад.\n\nБуду благодарен за обратную связь и предложения по улучшению работы.\n\nЧтобы начать введите /start_bot")
 
 
 
@@ -77,7 +77,7 @@ async def main() -> None:
 
     # Добавляем обработчики
     conv_handler = ConversationHandler(
-        entry_points=[CommandHandler('start', zapros_start)],
+        entry_points=[CommandHandler('start_bot', zapros_start)],
         states={
             SET_ITEMS: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_quantity_goods)],
             SET_DATE: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_otzyv)],
@@ -88,7 +88,7 @@ async def main() -> None:
 
     application.add_handler(conv_handler)
     application.add_handler(CommandHandler('check', check))
-    application.add_handler(CommandHandler('instruction', instruction))
+    application.add_handler(CommandHandler('start', instruction))
 
 
     
@@ -96,7 +96,7 @@ async def main() -> None:
     # Запуск проверки по базе данныех в 10:00 мск
     application.job_queue.run_daily(
     schedule_daily_check,
-    time=datetime.time(hour=14, minute=30, tzinfo=pytz.timezone('Europe/Moscow'))
+    time=datetime.time(hour=11, minute=20, tzinfo=pytz.timezone('Europe/Moscow'))
 )
 
 
