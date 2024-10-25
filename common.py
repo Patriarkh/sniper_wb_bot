@@ -1,4 +1,4 @@
-# common.py
+
 import aiosqlite
 import datetime
 import logging
@@ -114,7 +114,6 @@ async def register_user(update, context):
                 VALUES (?, ?, ?, ?)
             ''', (user_id, username, chat_id, created_at))
             await db.commit()
-
 
 
 

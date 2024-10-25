@@ -12,6 +12,7 @@ from formirovanie_zaprosa import zapros_start, get_quantity_goods, get_otzyv, ge
 from helpers import log_message
 from every_day import check_for_new_items
 from database_utils import init_db
+from get_member import check_subscription, subscription_required
 
 
 
@@ -28,11 +29,12 @@ logger = logging.getLogger(__name__)
 
 
 # Функция для проверки запуска бота
+@subscription_required
 async def check(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     await context.bot.send_message(chat_id=chat_id, text="Бот запущен")
 
-
+@subscription_required
 async def instruction(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     await context.bot.send_message(chat_id=chat_id, text="При первичном формировании запроса, вы можете вписать любые данные.\n\nДалее при ежедневной отправке, бот будет отправлять те товары, у которых первый отзыв появился после даты, которая была две недели назад.\n\nБуду благодарен за обратную связь и предложения по улучшению работы.\n\nЧтобы начать введите /start_bot")
@@ -41,6 +43,7 @@ async def instruction(update: Update, context: CallbackContext):
 
 
 # Ежедневная проверка по базе данных
+@subscription_required
 async def schedule_daily_check(context: CallbackContext):
     async with aiosqlite.connect('products.db') as db:
         cursor = await db.execute('SELECT user_id, username, chat_id, created_at FROM users')
@@ -96,7 +99,7 @@ async def main() -> None:
     # Запуск проверки по базе данныех в 10:00 мск
     application.job_queue.run_daily(
     schedule_daily_check,
-    time=datetime.time(hour=11, minute=20, tzinfo=pytz.timezone('Europe/Moscow'))
+    time=datetime.time(hour=12, minute=38, tzinfo=pytz.timezone('Europe/Moscow'))
 )
 
 
