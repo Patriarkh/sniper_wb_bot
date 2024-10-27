@@ -10,8 +10,9 @@ async def check_subscription(update: Update, context: CallbackContext) -> bool:
 def subscription_required(func):
     async def wrapper(update: Update, context: CallbackContext, *args, **kwargs):
         if not await check_subscription(update, context):
-            await update.message.reply_text("Чтобы использовать бота, пожалуйста, подпишитесь на канал: @nikitaraikov\n\nПосле подписки нажмите снова команду /start")
+            await update.message.reply_text("Чтобы использовать бота, пожалуйста, подпишитесь на канал: @nikitaraikov")
             return
         return await func(update, context, *args, **kwargs)
     return wrapper
+
 

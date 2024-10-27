@@ -43,28 +43,32 @@ async def instruction(update: Update, context: CallbackContext):
 
 
 # Ежедневная проверка по базе данных
-@subscription_required
 async def schedule_daily_check(context: CallbackContext):
     async with aiosqlite.connect('products.db') as db:
         cursor = await db.execute('SELECT user_id, username, chat_id, created_at FROM users')
         users = await cursor.fetchall()
 
-        # Создаем список задач для параллельного выполнения
         tasks = []
         for user in users:
             user_id, username, chat_id, created_at = user
-            tasks.append(check_for_new_items(context, chat_id, user_id))
+
+            # Проверка подписки для каждого пользователя
+            chat_member = await context.bot.get_chat_member(chat_id="@nikitaraikov", user_id=user_id)
+            if chat_member.status in ["member", "administrator", "creator"]:
+                # Если пользователь подписан, добавляем задачу в список
+                tasks.append(check_for_new_items(context, chat_id, user_id))
 
         # Параллельное выполнение всех задач
         results = await asyncio.gather(*tasks, return_exceptions=True)
 
-        # Обработка результатов и логирование ошибок
+        # Логирование результатов и ошибок
         for result, user in zip(results, users):
             user_id, username, chat_id, created_at = user
             if isinstance(result, Exception):
                 await log_message(context, chat_id=chat_id, message=f"Ошибка при проверке новых товаров: {result}")
             else:
                 await log_message(context, chat_id=chat_id, message="Проверка новых товаров выполнена успешно.")
+
 
 
 
@@ -99,8 +103,10 @@ async def main() -> None:
     # Запуск проверки по базе данныех в 10:00 мск
     application.job_queue.run_daily(
     schedule_daily_check,
-    time=datetime.time(hour=12, minute=38, tzinfo=pytz.timezone('Europe/Moscow'))
+    time=datetime.time(hour=11, minute=24, tzinfo=pytz.timezone('Europe/Moscow'))
 )
+
+
 
 
     # Инициализация приложения
