@@ -1,8 +1,9 @@
-# database_utils.py
 import aiosqlite
+import os
+DATABASE_URL = os.getenv('DATABASE_URL')
 
 async def init_db():
-    async with aiosqlite.connect('products.db') as db:
+    async with aiosqlite.connect('DATABASE_URL') as db:
         await db.execute('''
             CREATE TABLE IF NOT EXISTS users (
                 user_id INTEGER PRIMARY KEY,

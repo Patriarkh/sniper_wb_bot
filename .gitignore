@@ -7,3 +7,4 @@ sniper_bot.log
 venv
 products.db
 .DS_Store
+.vscode
