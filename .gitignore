@@ -1,7 +1,5 @@
 __pycache__/
 *.pyc
-Procfile
-requirements.txt
 settings.py
 sniper_bot.log
 venv
