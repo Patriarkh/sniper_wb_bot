@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 async def make_mpstats_request(update: Update, context: CallbackContext, user_id):
     # Извлекаем данные из базы данных для пользователя
-    async with aiosqlite.connect('DATABASE_URL') as db:
+    async with aiosqlite.connect(DATABASE_URL) as db:
         cursor = await db.execute('SELECT revenue_min, revenue_max FROM users WHERE user_id = ?', (user_id,))
         user_data = await cursor.fetchone()
 

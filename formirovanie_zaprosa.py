@@ -48,7 +48,7 @@ async def get_diapazon_revenue(update: Update, context: CallbackContext) -> int:
     revenue_max = int(revenue_range[1])
 
     # Сохраняем данные в базу данных
-    async with aiosqlite.connect('DATABASE_URL') as db:
+    async with aiosqlite.connect(DATABASE_URL) as db:
         await db.execute('''
             UPDATE users
             SET revenue_min = ?, revenue_max = ?
