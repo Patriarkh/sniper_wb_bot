@@ -29,7 +29,7 @@ async def init_db():
         await db.commit()
 
 async def save_product_for_user(item, user_id):
-    async with aiosqlite.connect('products.db') as db:
+    async with aiosqlite.connect('DATABASE_URL') as db:
         await db.execute('''
             INSERT INTO products (name, revenue, first_comment_date, product_id, product_url, user_id)
             VALUES (?, ?, ?, ?, ?, ?)
