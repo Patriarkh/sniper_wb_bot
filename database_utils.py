@@ -42,3 +42,4 @@ async def save_product_for_user(item, user_id):
             user_id
         ))
         await db.commit()
+
