@@ -9,9 +9,6 @@ import datetime
 import aiosqlite
 from helpers import send_long_message, log_message
 from database_utils import save_product_for_user
-import os
-
-DATABASE_URL = os.getenv('DATABASE_URL')
 
 # Настройка логирования
 logger = logging.getLogger(__name__)
@@ -26,7 +23,7 @@ async def check_for_new_items(context: CallbackContext, chat_id, user_id) -> Non
     """Функция для проверки новых товаров и добавления их в базу данных."""
     logger.info(f"Начало проверки новых товаров для пользователя {user_id} в чате {chat_id}")
 
-    async with aiosqlite.connect(DATABASE_URL) as db:
+    async with aiosqlite.connect('products.db') as db:
         cursor = await db.execute('SELECT revenue_min, revenue_max FROM users WHERE user_id = ?', (user_id,))
         user_data = await cursor.fetchone()
 
@@ -86,7 +83,7 @@ async def check_for_new_items(context: CallbackContext, chat_id, user_id) -> Non
                 return
 
             new_items = []
-            async with aiosqlite.connect(DATABASE_URL) as db:
+            async with aiosqlite.connect('products.db') as db:
                 for item in data:
                     product_id = item.get('id', None)
 

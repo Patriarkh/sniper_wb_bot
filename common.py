@@ -1,4 +1,3 @@
-
 import aiosqlite
 import datetime
 import logging
@@ -11,9 +10,6 @@ from telegram.ext import CallbackContext, ConversationHandler
 import datetime
 import aiosqlite
 from database_utils import save_product_for_user, init_db
-import os
-
-DATABASE_URL = os.getenv('DATABASE_URL')
 
 
 
@@ -29,7 +25,7 @@ logger = logging.getLogger(__name__)
 
 async def make_mpstats_request(update: Update, context: CallbackContext, user_id):
     # Извлекаем данные из базы данных для пользователя
-    async with aiosqlite.connect(DATABASE_URL) as db:
+    async with aiosqlite.connect('products.db') as db:
         cursor = await db.execute('SELECT revenue_min, revenue_max FROM users WHERE user_id = ?', (user_id,))
         user_data = await cursor.fetchone()
 
@@ -107,7 +103,7 @@ async def register_user(update, context):
     chat_id = update.effective_chat.id
     created_at = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
-    async with aiosqlite.connect('DATABASE_URL') as db:
+    async with aiosqlite.connect('products.db') as db:
         cursor = await db.execute('SELECT * FROM users WHERE user_id = ?', (user_id,))
         existing_user = await cursor.fetchone()
 
@@ -117,7 +113,6 @@ async def register_user(update, context):
                 VALUES (?, ?, ?, ?)
             ''', (user_id, username, chat_id, created_at))
             await db.commit()
-
 
 
 

@@ -13,9 +13,6 @@ from helpers import log_message
 from every_day import check_for_new_items
 from database_utils import init_db
 from get_member import check_subscription, subscription_required
-import os
-
-DATABASE_URL = os.getenv('DATABASE_URL')
 
 
 
@@ -47,7 +44,7 @@ async def instruction(update: Update, context: CallbackContext):
 
 # Ежедневная проверка по базе данных
 async def schedule_daily_check(context: CallbackContext):
-    async with aiosqlite.connect(DATABASE_URL) as db:
+    async with aiosqlite.connect('products.db') as db:
         cursor = await db.execute('SELECT user_id, username, chat_id, created_at FROM users')
         users = await cursor.fetchall()
 
@@ -106,7 +103,7 @@ async def main() -> None:
     # Запуск проверки по базе данныех в 10:00 мск
     application.job_queue.run_daily(
     schedule_daily_check,
-    time=datetime.time(hour=10, minute=10, tzinfo=pytz.timezone('Europe/Moscow'))
+    time=datetime.time(hour=11, minute=10, tzinfo=pytz.timezone('Europe/Moscow'))
 )
 
 

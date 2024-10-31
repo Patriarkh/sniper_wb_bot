@@ -10,9 +10,6 @@ import datetime
 from common import register_user, make_mpstats_request
 from database_utils import init_db  # Импортируем из нового файла
 from get_member import check_subscription, subscription_required
-import os
-
-DATABASE_URL = os.getenv('DATABASE_URL')
 
 
 # Настройка логирования
@@ -48,7 +45,7 @@ async def get_diapazon_revenue(update: Update, context: CallbackContext) -> int:
     revenue_max = int(revenue_range[1])
 
     # Сохраняем данные в базу данных
-    async with aiosqlite.connect(DATABASE_URL) as db:
+    async with aiosqlite.connect('products.db') as db:
         await db.execute('''
             UPDATE users
             SET revenue_min = ?, revenue_max = ?
