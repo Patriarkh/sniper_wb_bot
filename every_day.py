@@ -23,7 +23,7 @@ async def check_for_new_items(context: CallbackContext, chat_id, user_id) -> Non
     """Функция для проверки новых товаров и добавления их в базу данных."""
     logger.info(f"Начало проверки новых товаров для пользователя {user_id} в чате {chat_id}")
 
-    async with aiosqlite.connect('products.db') as db:
+    async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
         cursor = await db.execute('SELECT revenue_min, revenue_max FROM users WHERE user_id = ?', (user_id,))
         user_data = await cursor.fetchone()
 
@@ -83,7 +83,7 @@ async def check_for_new_items(context: CallbackContext, chat_id, user_id) -> Non
                 return
 
             new_items = []
-            async with aiosqlite.connect('products.db') as db:
+            async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
                 for item in data:
                     product_id = item.get('id', None)
 
