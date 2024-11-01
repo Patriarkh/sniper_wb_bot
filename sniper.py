@@ -13,6 +13,7 @@ from helpers import log_message
 from every_day import check_for_new_items
 from database_utils import init_db
 from get_member import check_subscription, subscription_required
+from database_utils import delete_user_data
 
 
 
@@ -26,6 +27,13 @@ logging.basicConfig(
     ]
 )
 logger = logging.getLogger(__name__)
+
+#Функция для удаления фильтров
+@subscription_required
+async def delete_filters(update: Update, context: CallbackContext):
+    user_id = update.effective_user.id
+    await delete_user_data(user_id)
+    await update.message.reply_text("Ваши фильтры и данные успешно удалены. Чтобы сформировать новую базу данных введите /start_bot")
 
 
 # Функция для проверки запуска бота
@@ -96,6 +104,8 @@ async def main() -> None:
     application.add_handler(conv_handler)
     application.add_handler(CommandHandler('check', check))
     application.add_handler(CommandHandler('start', instruction))
+    application.add_handler(CommandHandler('delete', delete_filters))
+
 
 
     

@@ -40,3 +40,9 @@ async def save_product_for_user(item, user_id):
             user_id
         ))
         await db.commit()
+
+async def delete_user_data(user_id):
+    async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
+        await db.execute('DELETE FROM products WHERE user_id = ?', (user_id,))
+        await db.execute('DELETE FROM users WHERE user_id = ?', (user_id,))
+        await db.commit()
