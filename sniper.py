@@ -85,7 +85,7 @@ async def schedule_daily_check(context: CallbackContext):
 SET_ITEMS, SET_DATE, SET_REVENUE = range(3)
 
 #Константа для регистрации аи ключа
-ENTER_API_KEY = 3
+ENTER_API_KEY = 4
 
 async def main() -> None:
     await init_db()

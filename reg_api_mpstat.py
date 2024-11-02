@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 # Константа для состояния
-ENTER_API_KEY = 3
+ENTER_API_KEY = 4
 
 #Регистрация личного апи ключа мпстата
 @subscription_required
