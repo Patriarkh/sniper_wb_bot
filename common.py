@@ -23,11 +23,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-
-
-import asyncio
-
 async def make_mpstats_request(update: Update, context: CallbackContext, user_id):
+    # Извлекаем данные из базы данных для пользователя
     async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
         cursor = await db.execute('SELECT revenue_min, revenue_max FROM users WHERE user_id = ?', (user_id,))
         user_data = await cursor.fetchone()
@@ -43,7 +40,7 @@ async def make_mpstats_request(update: Update, context: CallbackContext, user_id
         yesterday = (datetime.datetime.today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
         last_30_days_from_today = (datetime.datetime.today() - datetime.timedelta(days=30)).strftime('%Y-%m-%d')
 
-
+        # Формируем данные для запроса
         json_data = {
             'startRow': 0,
             'endRow': count, 
@@ -68,39 +65,36 @@ async def make_mpstats_request(update: Update, context: CallbackContext, user_id
             'Content-Type': 'application/json'
         }
 
+        # Выполняем запрос к API
         response = requests.post(url, headers=headers, data=json.dumps(json_data))
         
         if response.status_code == 200:
             data = response.json().get('data', [])
             if data:
-                tasks = []
                 for item in data:
-                    tasks.append(send_product_to_user(context, update, item, user_id))
-                await asyncio.gather(*tasks)  # Параллельное выполнение задач
+                    # Сохраняем товар и отправляем пользователю информацию
+                    await save_product_for_user(item, user_id)
+                    message = (
+                        f"Название товара: {item.get('name', 'Нет названия')}\n"
+                        f"Выручка: {item.get('revenue', 'Нет данных')}\n"
+                        f"Дата первого отзыва: {item.get('firstcommentdate', 'Нет данных')}\n"
+                        f"Артикул: {item.get('id', 'Нет артикула')}\n"
+                        f"Ссылка на товар: {item.get('url', 'Нет ссылки')}\n"
+                    )
+                    photo_url = "https:" + item.get('thumb_middle', '')  
+                    if photo_url:
+                        try:
+                            await context.bot.send_photo(chat_id=update.effective_chat.id, photo=photo_url, caption=message)
+                        except Exception as e:
+                            logger.error(f"Ошибка при отправке фото: {e}")
+                            await update.message.reply_text(message)  # Отправляем сообщение без фото при ошибке
+                    else:
+                        await update.message.reply_text(message)  # Если нет фото, отправляем только текст
+                    await asyncio.sleep(1.5)
             else:
                 await update.message.reply_text("Товары не найдены.")
         else:
             await update.message.reply_text(f"Ошибка: {response.status_code}\n{response.text}")
-
-
-async def send_product_to_user(context: CallbackContext, update: Update, item, user_id):
-    message = (
-        f"Название товара: {item.get('name', 'Нет названия')}\n"
-        f"Выручка: {item.get('revenue', 'Нет данных')}\n"
-        f"Дата первого отзыва: {item.get('firstcommentdate', 'Нет данных')}\n"
-        f"Артикул: {item.get('id', 'Нет артикула')}\n"
-        f"Ссылка на товар: {item.get('url', 'Нет ссылки')}\n"
-    )
-    photo_url = "https:" + item.get('thumb_middle', '')  
-    if photo_url:
-        try:
-            await context.bot.send_photo(chat_id=update.effective_chat.id, photo=photo_url, caption=message)
-        except Exception as e:
-            await update.message.reply_text(message)  # Отправляем сообщение без фото при ошибке
-    else:
-        await update.message.reply_text(message)  # Если нет фото, отправляем только текст
-    await asyncio.sleep(1.5)  # Пауза между отправками
-
 
 
 async def register_user(update, context):
@@ -119,6 +113,5 @@ async def register_user(update, context):
                 VALUES (?, ?, ?, ?)
             ''', (user_id, username, chat_id, created_at))
             await db.commit()
-
 
 
