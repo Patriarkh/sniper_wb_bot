@@ -9,7 +9,8 @@ async def init_db():
                 chat_id INTEGER,
                 created_at TEXT,
                 revenue_min INTEGER,
-                revenue_max INTEGER
+                revenue_max INTEGER,
+                mpstats_api_key TEXT  -- добавляем поле для API-ключа
             )
         ''')
         await db.execute('''

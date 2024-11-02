@@ -14,6 +14,7 @@ from every_day import check_for_new_items
 from database_utils import init_db
 from get_member import check_subscription, subscription_required
 from database_utils import delete_user_data
+from reg_api_mpstat import register_api_key, save_api_key
 
 
 
@@ -42,10 +43,6 @@ async def check(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     await context.bot.send_message(chat_id=chat_id, text="Бот запущен")
 
-@subscription_required
-async def instruction(update: Update, context: CallbackContext):
-    chat_id = update.effective_chat.id
-    await context.bot.send_message(chat_id=chat_id, text="При первичном формировании запроса, вы можете вписать любые данные.\n\nДалее при ежедневной отправке, бот будет отправлять те товары, у которых первый отзыв появился после даты, которая была две недели назад.\n\nБуду благодарен за обратную связь и предложения по улучшению работы.\n\nЧтобы начать введите /start_bot")
 
 
 
@@ -83,14 +80,17 @@ async def schedule_daily_check(context: CallbackContext):
 
 
 
-# Константы этапов диалога
+# Константы этапов диалога для формирования базы данных товаров
 SET_ITEMS, SET_DATE, SET_REVENUE = range(3)
+
+#Константа для регистрации аи ключа
+ENTER_API_KEY = range(1)
 
 async def main() -> None:
     await init_db()
     application = Application.builder().token(settings.TELEGRAM_BOT_TOKEN).build()
 
-    # Добавляем обработчики
+    # Диалог для формирования базы данных товаров
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start_bot', zapros_start)],
         states={
@@ -101,9 +101,21 @@ async def main() -> None:
         fallbacks=[CommandHandler('cancel', cancel)],
     )
 
+    # Диалог для регистрации апи ключа
+    conv_handler = ConversationHandler(
+        entry_points={CommandHandler('start', register_api_key)},
+        states={
+            ENTER_API_KEY: [MessageHandler(filters.TEXT & ~filters.COMMAND, save_api_key)],
+        },
+        fallbacks=[CommandHandler('cancel', cancel)],
+    )
+
+
+
+
     application.add_handler(conv_handler)
     application.add_handler(CommandHandler('check', check))
-    application.add_handler(CommandHandler('start', instruction))
+    application.add_handler(CommandHandler('start', register_api_key))
     application.add_handler(CommandHandler('delete', delete_filters))
 
 
