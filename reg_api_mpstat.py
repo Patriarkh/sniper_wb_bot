@@ -12,9 +12,9 @@ from formirovanie_zaprosa import zapros_start, get_quantity_goods, get_otzyv, ge
 from helpers import log_message
 from every_day import check_for_new_items
 from database_utils import init_db
-from get_member import check_subscription, subscription_required
-from database_utils import delete_user_data
-from reg_api_mpstat import register_api_key, save_api_key
+from get_member import subscription_required
+
+
 
 
 # Константа для состояния
