@@ -29,6 +29,7 @@ async def register_api_key(update: Update, context: CallbackContext):
 
 # Обработка введенного API-ключа
 async def save_api_key(update: Update, context: CallbackContext):
+    logger.info("save_api_key вызван.")
     user_id = update.effective_user.id
     api_key = update.message.text  # Получаем API-ключ из сообщения
 
@@ -40,11 +41,11 @@ async def save_api_key(update: Update, context: CallbackContext):
             ON CONFLICT(user_id) DO UPDATE SET mpstats_api_key = excluded.mpstats_api_key
         ''', (user_id, api_key))
         await db.commit()
-        logger.info(f"API-ключ для пользователя {user_id} сохранен в базе данных.")
 
-
+    logger.info(f"API-ключ для пользователя {user_id} сохранен.")
     await update.message.reply_text("Ваш API-ключ успешно сохранен.")
-    return ConversationHandler.END  # Завершаем диалог
+    return ConversationHandler.END
+
 
 
 
