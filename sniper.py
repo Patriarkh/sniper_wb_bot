@@ -85,7 +85,7 @@ async def schedule_daily_check(context: CallbackContext):
 SET_ITEMS, SET_DATE, SET_REVENUE = range(3)
 
 #Константа для регистрации аи ключа
-ENTER_API_KEY = range(1)
+ENTER_API_KEY = 3
 
 async def main() -> None:
     await init_db()
@@ -104,7 +104,7 @@ async def main() -> None:
 
     # Диалог для регистрации апи ключа
     conv_handler_api = ConversationHandler(
-        entry_points={CommandHandler('start', register_api_key)},
+        entry_points=[CommandHandler('start', register_api_key)],
         states={
             ENTER_API_KEY: [MessageHandler(filters.TEXT & ~filters.COMMAND, save_api_key)],
         },
@@ -116,9 +116,7 @@ async def main() -> None:
 
     application.add_handler(conv_handler)
     application.add_handler(conv_handler_api)
-    application.add_handler(CommandHandler('start_bot', zapros_start ))
     application.add_handler(CommandHandler('check', check))
-    application.add_handler(CommandHandler('start', register_api_key))
     application.add_handler(CommandHandler('delete', delete_filters))
 
 

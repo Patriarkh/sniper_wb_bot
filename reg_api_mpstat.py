@@ -14,7 +14,8 @@ from every_day import check_for_new_items
 from database_utils import init_db
 from get_member import subscription_required
 
-
+# Настройка логирования
+logger = logging.getLogger(__name__)
 
 
 # Константа для состояния
@@ -34,12 +35,17 @@ async def save_api_key(update: Update, context: CallbackContext):
     # Сохраняем API-ключ в базе данных
     async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
         await db.execute('''
-            UPDATE users SET mpstats_api_key = ? WHERE user_id = ?
-        ''', (api_key, user_id))
+            INSERT INTO users (user_id, mpstats_api_key)
+            VALUES (?, ?)
+            ON CONFLICT(user_id) DO UPDATE SET mpstats_api_key = excluded.mpstats_api_key
+        ''', (user_id, api_key))
         await db.commit()
+        logger.info(f"API-ключ для пользователя {user_id} сохранен в базе данных.")
 
-    await update.message.reply_text("Ваш API-ключ успешно сохранен.\n\nПри первичном формировании запроса, вы можете вписать любые данные.\n\nДалее при ежедневной отправке, бот будет отправлять те товары, у которых первый отзыв появился после даты, которая была две недели назад.\n\nБуду благодарен за обратную связь и предложения по улучшению работы.\n\nЧтобы начать введите /start_bot")
+
+    await update.message.reply_text("Ваш API-ключ успешно сохранен.")
     return ConversationHandler.END  # Завершаем диалог
+
 
 
 # Обработчик отменыs

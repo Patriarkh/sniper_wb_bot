@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 async def make_mpstats_request(update: Update, context: CallbackContext, user_id):
     api_key = await get_user_api_key(user_id)
     if not api_key:
-        await update.message.reply_text("API-ключ не найден. Пожалуйста, зарегистрируйте его командой /register_api <ваш_ключ>.")
+        await update.message.reply_text("API-ключ не найден. Пожалуйста, зарегистрируйте его командой /start")
         return
     # Извлекаем данные из базы данных для пользователя
     async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
