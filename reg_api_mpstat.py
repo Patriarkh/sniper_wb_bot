@@ -43,7 +43,7 @@ async def save_api_key(update: Update, context: CallbackContext):
         await db.commit()
 
     logger.info(f"API-ключ для пользователя {user_id} сохранен.")
-    await update.message.reply_text("Ваш API-ключ успешно сохранен.")
+    await update.message.reply_text("Ваш API-ключ успешно сохранен.\n\nДля формирования вашей базы данных введите /start_bot")
     return ConversationHandler.END
 
 
