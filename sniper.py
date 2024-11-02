@@ -114,6 +114,7 @@ async def main() -> None:
 
 
     application.add_handler(conv_handler)
+    application.add_handler(CommandHandler('start_bot', zapros_start ))
     application.add_handler(CommandHandler('check', check))
     application.add_handler(CommandHandler('start', register_api_key))
     application.add_handler(CommandHandler('delete', delete_filters))
