@@ -47,3 +47,12 @@ async def delete_user_data(user_id):
         await db.execute('DELETE FROM products WHERE user_id = ?', (user_id,))
         await db.execute('DELETE FROM users WHERE user_id = ?', (user_id,))
         await db.commit()
+
+
+
+
+async def get_user_api_key(user_id):
+    async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
+        cursor = await db.execute('SELECT mpstats_api_key FROM users WHERE user_id = ?', (user_id,))
+        result = await cursor.fetchone()
+        return result[0] if result else None  # Возвращаем ключ или None, если он не найден

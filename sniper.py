@@ -48,6 +48,7 @@ async def check(update: Update, context: CallbackContext):
 
 
 # Ежедневная проверка по базе данных
+@subscription_required
 async def schedule_daily_check(context: CallbackContext):
     async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
         cursor = await db.execute('SELECT user_id, username, chat_id, created_at FROM users')

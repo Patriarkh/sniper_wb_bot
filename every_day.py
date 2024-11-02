@@ -8,7 +8,7 @@ from telegram.ext import CallbackContext, ConversationHandler
 import datetime
 import aiosqlite
 from helpers import send_long_message, log_message
-from database_utils import save_product_for_user
+from database_utils import save_product_for_user, get_user_api_key
 
 # Настройка логирования
 logger = logging.getLogger(__name__)
@@ -20,6 +20,13 @@ last_30_days_from_today = (datetime.datetime.today() - datetime.timedelta(days=3
 
 
 async def check_for_new_items(context: CallbackContext, chat_id, user_id) -> None:
+    api_key = await get_user_api_key(user_id)
+    if not api_key:
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text="API-ключ не найден. Пожалуйста, зарегистрируйте его командой /start"
+        )
+        return
     """Функция для проверки новых товаров и добавления их в базу данных."""
     logger.info(f"Начало проверки новых товаров для пользователя {user_id} в чате {chat_id}")
 
@@ -60,7 +67,7 @@ async def check_for_new_items(context: CallbackContext, chat_id, user_id) -> Non
 
         url = f'https://mpstats.io/api/wb/get/category?path=Женщинам&d1={last_30_days_from_today}&d2={yesterday}'
         headers = {
-            'X-Mpstats-TOKEN': settings.MPSTATS_API_KEY,
+            'X-Mpstats-TOKEN': api_key,
             'Content-Type': 'application/json'
         }
 

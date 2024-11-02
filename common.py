@@ -9,7 +9,7 @@ from telegram import Update
 from telegram.ext import CallbackContext, ConversationHandler
 import datetime
 import aiosqlite
-from database_utils import save_product_for_user, init_db
+from database_utils import save_product_for_user, init_db, get_user_api_key
 
 
 
@@ -24,6 +24,10 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 async def make_mpstats_request(update: Update, context: CallbackContext, user_id):
+    api_key = await get_user_api_key(user_id)
+    if not api_key:
+        await update.message.reply_text("API-ключ не найден. Пожалуйста, зарегистрируйте его командой /register_api <ваш_ключ>.")
+        return
     # Извлекаем данные из базы данных для пользователя
     async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
         cursor = await db.execute('SELECT revenue_min, revenue_max FROM users WHERE user_id = ?', (user_id,))
@@ -61,7 +65,7 @@ async def make_mpstats_request(update: Update, context: CallbackContext, user_id
 
         url = f'https://mpstats.io/api/wb/get/category?path=Женщинам&d1={last_30_days_from_today}&d2={yesterday}'
         headers = {
-            'X-Mpstats-TOKEN': settings.MPSTATS_API_KEY,
+            'X-Mpstats-TOKEN': api_key,
             'Content-Type': 'application/json'
         }
 
