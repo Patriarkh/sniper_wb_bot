@@ -99,6 +99,7 @@ async def make_mpstats_request(update: Update, context: CallbackContext, user_id
                 await update.message.reply_text("Товары не найдены.")
         else:
             await update.message.reply_text(f"Ошибка: {response.status_code}\n{response.text}")
+            
 
 
 async def register_user(update, context):
@@ -106,6 +107,9 @@ async def register_user(update, context):
     username = update.effective_user.username
     chat_id = update.effective_chat.id
     created_at = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    # Логирование данных перед записью
+    logger.info(f"Регистрация пользователя: user_id={user_id}, username={username}, chat_id={chat_id}, created_at={created_at}")
     
     async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
         cursor = await db.execute('SELECT * FROM users WHERE user_id = ?', (user_id,))
