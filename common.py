@@ -29,18 +29,30 @@ import logging
 logger = logging.getLogger(__name__)
 
 async def make_mpstats_request(context: CallbackContext):
-    # Извлекаем данные пользователя из context.job.data
-    user_data = context.job.data
-    if user_data is None:
+    # Логирование всех данных context.job.data
+    logger.info(f"context.job.data содержимое: {context.job.data}")
+
+    # Проверка на наличие context.job.data и его содержимого
+    if not context.job.data:
         logger.error("context.job.data is None. Ошибка передачи данных в make_mpstats_request.")
         return
 
-    user_id = user_data.get('user_id')
-    update = user_data.get('update')
+    user_id = context.job.data.get('user_id')
+    update = context.job.data.get('update')
 
-    # Проверка на наличие user_id и update
-    if update is None or user_id is None:
-        logger.error("Ошибка: update или user_id равен None. Проверьте передачу данных.")
+    # Проверка наличия user_id и update
+    if user_id is None:
+        logger.error("user_id равен None в make_mpstats_request.")
+        return
+    if update is None:
+        logger.error("update равен None в make_mpstats_request.")
+        return
+
+    logger.info(f"Получен user_id: {user_id}, update: {update}")
+
+    api_key = await get_user_api_key(user_id)
+    if not api_key:
+        await update.message.reply_text("API-ключ не найден. Пожалуйста, зарегистрируйте его командой /start")
         return
     
     api_key = await get_user_api_key(user_id)
