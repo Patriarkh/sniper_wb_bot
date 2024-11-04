@@ -25,6 +25,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 async def make_mpstats_request(update: Update, context: CallbackContext, user_id):
+    user_id = context.job.context['user_id']
+    update = context.job.context['update']
     api_key = await get_user_api_key(user_id)
     if not api_key:
         await update.message.reply_text("API-ключ не найден. Пожалуйста, зарегистрируйте его командой /start")

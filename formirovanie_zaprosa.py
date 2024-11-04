@@ -10,6 +10,7 @@ import datetime
 from common import register_user, make_mpstats_request
 from database_utils import init_db  # Импортируем из нового файла
 from get_member import check_subscription, subscription_required
+from handle_request import handle_request
 
 
 # Настройка логирования
@@ -54,7 +55,7 @@ async def get_diapazon_revenue(update: Update, context: CallbackContext) -> int:
         await db.commit()
 
     # Теперь формируем и отправляем запрос к MPStats с использованием введенных данных
-    await make_mpstats_request(update, context, user_id)
+    await update.message.reply_text("Ваши фильтры сохранены. Для получения товаров введите /start_request")
     return ConversationHandler.END
 
 # Выход из диалога

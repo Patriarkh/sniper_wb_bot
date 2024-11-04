@@ -15,6 +15,7 @@ from database_utils import init_db
 from get_member import check_subscription, subscription_required
 from database_utils import delete_user_data
 from reg_api_mpstat import register_api_key, save_api_key
+from handle_request import handle_request
 
 
 
@@ -113,12 +114,14 @@ async def main() -> None:
     )
 
 
-
+# Добавляем JobQueue к приложению
+    job_queue = application.job_queue
 
     application.add_handler(conv_handler)
     application.add_handler(conv_handler_api)
     application.add_handler(CommandHandler('check', check))
     application.add_handler(CommandHandler('delete', delete_filters))
+    application.add_handler(CommandHandler("start_request", handle_request))
     application.add_error_handler(lambda update, context: logger.error(f"Произошла ошибка: {context.error}"))
 
 
