@@ -1,6 +1,7 @@
 import aiosqlite
 import datetime
 import logging
+import aiohttp
 import asyncio
 import requests
 import json
@@ -28,7 +29,7 @@ async def make_mpstats_request(update: Update, context: CallbackContext, user_id
     if not api_key:
         await update.message.reply_text("API-ключ не найден. Пожалуйста, зарегистрируйте его командой /start")
         return
-    # Извлекаем данные из базы данных для пользователя
+
     async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
         cursor = await db.execute('SELECT revenue_min, revenue_max FROM users WHERE user_id = ?', (user_id,))
         user_data = await cursor.fetchone()
@@ -44,7 +45,6 @@ async def make_mpstats_request(update: Update, context: CallbackContext, user_id
         yesterday = (datetime.datetime.today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
         last_30_days_from_today = (datetime.datetime.today() - datetime.timedelta(days=30)).strftime('%Y-%m-%d')
 
-        # Формируем данные для запроса
         json_data = {
             'startRow': 0,
             'endRow': count, 
@@ -69,36 +69,36 @@ async def make_mpstats_request(update: Update, context: CallbackContext, user_id
             'Content-Type': 'application/json'
         }
 
-        # Выполняем запрос к API
-        response = requests.post(url, headers=headers, data=json.dumps(json_data))
-        
-        if response.status_code == 200:
-            data = response.json().get('data', [])
-            if data:
-                for item in data:
-                    # Сохраняем товар и отправляем пользователю информацию
-                    await save_product_for_user(item, user_id)
-                    message = (
-                        f"Название товара: {item.get('name', 'Нет названия')}\n"
-                        f"Выручка: {item.get('revenue', 'Нет данных')}\n"
-                        f"Дата первого отзыва: {item.get('firstcommentdate', 'Нет данных')}\n"
-                        f"Артикул: {item.get('id', 'Нет артикула')}\n"
-                        f"Ссылка на товар: {item.get('url', 'Нет ссылки')}\n"
-                    )
-                    photo_url = "https:" + item.get('thumb_middle', '')  
-                    if photo_url:
-                        try:
-                            await context.bot.send_photo(chat_id=update.effective_chat.id, photo=photo_url, caption=message)
-                        except Exception as e:
-                            logger.error(f"Ошибка при отправке фото: {e}")
-                            await update.message.reply_text(message)  # Отправляем сообщение без фото при ошибке
+        # Асинхронный запрос к API
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, headers=headers, json=json_data) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    items = data.get('data', [])
+                    if items:
+                        for item in items:
+                            await save_product_for_user(item, user_id)
+                            message = (
+                                f"Название товара: {item.get('name', 'Нет названия')}\n"
+                                f"Выручка: {item.get('revenue', 'Нет данных')}\n"
+                                f"Дата первого отзыва: {item.get('firstcommentdate', 'Нет данных')}\n"
+                                f"Артикул: {item.get('id', 'Нет артикула')}\n"
+                                f"Ссылка на товар: {item.get('url', 'Нет ссылки')}\n"
+                            )
+                            photo_url = "https:" + item.get('thumb_middle', '')  
+                            if photo_url:
+                                try:
+                                    await context.bot.send_photo(chat_id=update.effective_chat.id, photo=photo_url, caption=message)
+                                except Exception as e:
+                                    logger.error(f"Ошибка при отправке фото: {e}")
+                                    await update.message.reply_text(message)
+                            else:
+                                await update.message.reply_text(message)
+                            await asyncio.sleep(1.5)
                     else:
-                        await update.message.reply_text(message)  # Если нет фото, отправляем только текст
-                    await asyncio.sleep(1.5)
-            else:
-                await update.message.reply_text("Товары не найдены.")
-        else:
-            await update.message.reply_text(f"Ошибка: {response.status_code}\n{response.text}")
+                        await update.message.reply_text("Товары не найдены.")
+                else:
+                    await update.message.reply_text(f"Ошибка: {response.status}\n{await response.text()}")
             
 
 
