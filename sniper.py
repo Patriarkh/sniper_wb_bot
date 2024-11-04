@@ -87,7 +87,9 @@ SET_ITEMS, SET_DATE, SET_REVENUE = range(3)
 ENTER_API_KEY = 4
 
 async def main() -> None:
+    logger.info("Инициализация базы данных...")
     await init_db()
+    logger.info("База данных инициализирована.")
     application = Application.builder().token(settings.TELEGRAM_BOT_TOKEN).build()
 
     # Диалог для формирования базы данных товаров

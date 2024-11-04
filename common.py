@@ -110,6 +110,7 @@ logger.setLevel(logging.INFO)
 
 async def register_user(update, context):
     user_id = update.effective_user.id
+    logger.info(f"Начало обработки register_user для user_id={user_id}")
     username = update.effective_user.username
     chat_id = update.effective_chat.id
     created_at = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
