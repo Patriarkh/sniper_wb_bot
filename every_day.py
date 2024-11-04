@@ -23,7 +23,7 @@ async def check_for_new_items(context: CallbackContext, chat_id, user_id) -> Non
     api_key = await get_user_api_key(user_id)
     if not api_key:
         await context.bot.send_message(
-            chat_id=user_id,
+            chat_id=chat_id,
             text="API-ключ не найден. Пожалуйста, зарегистрируйте его командой /start"
         )
         return

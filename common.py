@@ -102,18 +102,24 @@ async def make_mpstats_request(update: Update, context: CallbackContext, user_id
             
 
 
+import logging
+
+# Инициализация логгера
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
 async def register_user(update, context):
     user_id = update.effective_user.id
     username = update.effective_user.username
     chat_id = update.effective_chat.id
     created_at = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-    # Логирование данных перед записью
     logger.info(f"Регистрация пользователя: user_id={user_id}, username={username}, chat_id={chat_id}, created_at={created_at}")
-    
+
     async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
         cursor = await db.execute('SELECT * FROM users WHERE user_id = ?', (user_id,))
         existing_user = await cursor.fetchone()
+        logger.info(f"Проверка существования пользователя: user_id={user_id}, существует={bool(existing_user)}")
 
         if not existing_user:
             await db.execute('''
@@ -121,5 +127,9 @@ async def register_user(update, context):
                 VALUES (?, ?, ?, ?)
             ''', (user_id, username, chat_id, created_at))
             await db.commit()
+            logger.info(f"Пользователь успешно зарегистрирован: user_id={user_id}")
+        else:
+            logger.info(f"Пользователь с user_id={user_id} уже существует в базе данных.")
+
 
 
