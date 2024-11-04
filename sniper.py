@@ -127,7 +127,7 @@ async def main() -> None:
     # Запуск проверки по базе данныех в 10:00 мск
     application.job_queue.run_daily(
     schedule_daily_check,
-    time=datetime.time(hour=12, minute=30, tzinfo=pytz.timezone('Europe/Moscow'))
+    time=datetime.time(hour=12, minute=35, tzinfo=pytz.timezone('Europe/Moscow'))
 )
 
 

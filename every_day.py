@@ -49,7 +49,7 @@ async def check_for_new_items(context: CallbackContext, chat_id, user_id) -> Non
         # Данные для запроса
         json_data = {
             'startRow': 0,
-            'endRow': 300, 
+            'endRow': 900, 
             'filterModel': {
                 'firstcommentdate': {
                     'filterType': 'date',
