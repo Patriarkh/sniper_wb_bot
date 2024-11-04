@@ -24,7 +24,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-async def make_mpstats_request(update: Update, context: CallbackContext, user_id):
+async def make_mpstats_request(context: CallbackContext):
+    user_id = context.job.data.get('user_id')
+    update = context.job.data.get('update')
+    
+    if update is None or user_id is None:
+        logger.error("Ошибка: update или user_id равен None.")
+        return
+    
     api_key = await get_user_api_key(user_id)
     if not api_key:
         await update.message.reply_text("API-ключ не найден. Пожалуйста, зарегистрируйте его командой /start")

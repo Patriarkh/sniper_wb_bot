@@ -7,10 +7,10 @@ async def handle_request(update: Update, context: CallbackContext):
 
     # Добавляем задание в JobQueue для выполнения make_mpstats_request
     context.job_queue.run_once(
-        make_mpstats_request,  # Функция, которую нужно выполнить
-        1,  # Задержка перед выполнением (0 = немедленно)
-        data={'user_id': user_id, 'update': update}  # Параметры для задания
+        make_mpstats_request,
+        0,  # Запуск без задержки
+        data={'user_id': user_id, 'update': update}  # Передаем данные для задания через `data`
     )
 
-    # Уведомляем пользователя, что задача выполняется
+    # Уведомляем пользователя о запуске задачи
     await update.message.reply_text("Ваш запрос обрабатывается. Это может занять некоторое время.")
