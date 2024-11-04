@@ -55,7 +55,7 @@ async def get_diapazon_revenue(update: Update, context: CallbackContext) -> int:
         await db.commit()
 
     # Теперь формируем и отправляем запрос к MPStats с использованием введенных данных
-    await update.message.reply_text("Ваши фильтры сохранены. Для получения товаров введите /start_request")
+    await make_mpstats_request(update, context, user_id)
     return ConversationHandler.END
 
 # Выход из диалога
