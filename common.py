@@ -24,22 +24,22 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-import logging
-
-logger = logging.getLogger(__name__)
-
-import logging
-
-logger = logging.getLogger(__name__)
 
 async def make_mpstats_request(context: CallbackContext):
     logger.info(f"context.job.data содержимое: {context.job.data}")
 
     user_id = context.job.data.get('user_id')
     update = context.job.data.get('update')
+    count = context.job.data.get('count', 100)
+    date_from = context.job.data.get('date_from')
 
     if update is None or user_id is None:
         logger.error("Ошибка: update или user_id равен None.")
+        return
+    
+    if date_from is None:
+        logger.error("Ошибка: date_from равен None.")
+        await update.message.reply_text("Дата не указана. Пожалуйста, введите дату.")
         return
 
     api_key = await get_user_api_key(user_id)
@@ -56,13 +56,6 @@ async def make_mpstats_request(context: CallbackContext):
             return
 
         revenue_min, revenue_max = user_data
-        count = context.user_data.get('count', 100)
-        date_from = context.user_data.get('date')
-
-        if date_from is None:
-            logger.error("Ошибка: date_from равен None.")
-            await update.message.reply_text("Дата не указана. Пожалуйста, введите дату.")
-            return
 
         yesterday = (datetime.datetime.today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
         last_30_days_from_today = (datetime.datetime.today() - datetime.timedelta(days=30)).strftime('%Y-%m-%d')
@@ -96,7 +89,6 @@ async def make_mpstats_request(context: CallbackContext):
                 if response.status == 200:
                     data = await response.json()
                     items = data.get('data', [])
-
                     if items is None:
                         await update.message.reply_text("Ошибка: Пустой ответ от сервера.")
                         logger.error("Ответ от API не содержит данных.")
@@ -125,7 +117,6 @@ async def make_mpstats_request(context: CallbackContext):
                     await update.message.reply_text(f"Ошибка: {response.status}\n{await response.text()}")
 
     logger.info(f"make_mpstats_request завершен для user_id={user_id}")
-
 
             
 

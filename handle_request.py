@@ -4,12 +4,14 @@ from common import make_mpstats_request
 
 async def handle_request(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
+    count = context.user_data.get('count', 100)
+    date_from = context.user_data.get('date')
 
     # Добавляем задание в JobQueue для выполнения make_mpstats_request
     context.job_queue.run_once(
         make_mpstats_request,
         0,  # Запуск без задержки
-        data={'user_id': user_id, 'update': update}  # Передаем данные для задания через `data`
+        data={'user_id': user_id, 'update': update, 'count': count, 'date_from': date_from}  # Передаем count и date_from
     )
 
     # Уведомляем пользователя о запуске задачи
