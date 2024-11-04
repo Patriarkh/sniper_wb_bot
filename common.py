@@ -24,7 +24,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-async def make_mpstats_request(update: Update, context: CallbackContext, user_id):
+async def make_mpstats_request(context: CallbackContext):
     user_id = context.job.data['user_id']
     update = context.job.data['update']
     api_key = await get_user_api_key(user_id)
