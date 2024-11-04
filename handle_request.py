@@ -9,7 +9,7 @@ async def handle_request(update: Update, context: CallbackContext):
     context.job_queue.run_once(
         make_mpstats_request,  # Функция, которую нужно выполнить
         1,  # Задержка перед выполнением (0 = немедленно)
-        context={'user_id': user_id, 'update': update}  # Параметры для задания
+        data={'user_id': user_id, 'update': update}  # Параметры для задания
     )
 
     # Уведомляем пользователя, что задача выполняется
