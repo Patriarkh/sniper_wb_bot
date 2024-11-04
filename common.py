@@ -24,12 +24,23 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 async def make_mpstats_request(context: CallbackContext):
-    user_id = context.job.data.get('user_id')
-    update = context.job.data.get('update')
-    
+    # Извлекаем данные пользователя из context.job.data
+    user_data = context.job.data
+    if user_data is None:
+        logger.error("context.job.data is None. Ошибка передачи данных в make_mpstats_request.")
+        return
+
+    user_id = user_data.get('user_id')
+    update = user_data.get('update')
+
+    # Проверка на наличие user_id и update
     if update is None or user_id is None:
-        logger.error("Ошибка: update или user_id равен None.")
+        logger.error("Ошибка: update или user_id равен None. Проверьте передачу данных.")
         return
     
     api_key = await get_user_api_key(user_id)
@@ -106,6 +117,9 @@ async def make_mpstats_request(context: CallbackContext):
                         await update.message.reply_text("Товары не найдены.")
                 else:
                     await update.message.reply_text(f"Ошибка: {response.status}\n{await response.text()}")
+
+    logger.info(f"make_mpstats_request завершен для user_id={user_id}")
+
             
 
 
