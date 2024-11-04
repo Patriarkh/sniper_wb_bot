@@ -122,14 +122,22 @@ async def register_user(update, context):
         logger.info(f"Проверка существования пользователя: user_id={user_id}, существует={bool(existing_user)}")
 
         if not existing_user:
+            # Вставка новой записи, если пользователя нет
             await db.execute('''
                 INSERT INTO users (user_id, username, chat_id, created_at)
                 VALUES (?, ?, ?, ?)
             ''', (user_id, username, chat_id, created_at))
-            await db.commit()
             logger.info(f"Пользователь успешно зарегистрирован: user_id={user_id}")
         else:
-            logger.info(f"Пользователь с user_id={user_id} уже существует в базе данных.")
+            # Обновление записи, если пользователь уже существует
+            await db.execute('''
+                UPDATE users
+                SET username = ?, chat_id = ?, created_at = ?
+                WHERE user_id = ?
+            ''', (username, chat_id, created_at, user_id))
+            logger.info(f"Данные пользователя обновлены: user_id={user_id}")
+
+        await db.commit()
 
 
 
