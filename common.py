@@ -28,33 +28,20 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-async def make_mpstats_request(context: CallbackContext):
-    # Логирование всех данных context.job.data
-    logger.info(f"context.job.data содержимое: {context.job.data}")
+import logging
 
-    # Проверка на наличие context.job.data и его содержимого
-    if not context.job.data:
-        logger.error("context.job.data is None. Ошибка передачи данных в make_mpstats_request.")
-        return
+logger = logging.getLogger(__name__)
+
+async def make_mpstats_request(context: CallbackContext):
+    logger.info(f"context.job.data содержимое: {context.job.data}")
 
     user_id = context.job.data.get('user_id')
     update = context.job.data.get('update')
 
-    # Проверка наличия user_id и update
-    if user_id is None:
-        logger.error("user_id равен None в make_mpstats_request.")
-        return
-    if update is None:
-        logger.error("update равен None в make_mpstats_request.")
+    if update is None or user_id is None:
+        logger.error("Ошибка: update или user_id равен None.")
         return
 
-    logger.info(f"Получен user_id: {user_id}, update: {update}")
-
-    api_key = await get_user_api_key(user_id)
-    if not api_key:
-        await update.message.reply_text("API-ключ не найден. Пожалуйста, зарегистрируйте его командой /start")
-        return
-    
     api_key = await get_user_api_key(user_id)
     if not api_key:
         await update.message.reply_text("API-ключ не найден. Пожалуйста, зарегистрируйте его командой /start")
@@ -71,6 +58,11 @@ async def make_mpstats_request(context: CallbackContext):
         revenue_min, revenue_max = user_data
         count = context.user_data.get('count', 100)
         date_from = context.user_data.get('date')
+
+        if date_from is None:
+            logger.error("Ошибка: date_from равен None.")
+            await update.message.reply_text("Дата не указана. Пожалуйста, введите дату.")
+            return
 
         yesterday = (datetime.datetime.today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
         last_30_days_from_today = (datetime.datetime.today() - datetime.timedelta(days=30)).strftime('%Y-%m-%d')
@@ -99,38 +91,41 @@ async def make_mpstats_request(context: CallbackContext):
             'Content-Type': 'application/json'
         }
 
-        # Асинхронный запрос к API
         async with aiohttp.ClientSession() as session:
             async with session.post(url, headers=headers, json=json_data) as response:
                 if response.status == 200:
                     data = await response.json()
                     items = data.get('data', [])
-                    if items:
-                        for item in items:
-                            await save_product_for_user(item, user_id)
-                            message = (
-                                f"Название товара: {item.get('name', 'Нет названия')}\n"
-                                f"Выручка: {item.get('revenue', 'Нет данных')}\n"
-                                f"Дата первого отзыва: {item.get('firstcommentdate', 'Нет данных')}\n"
-                                f"Артикул: {item.get('id', 'Нет артикула')}\n"
-                                f"Ссылка на товар: {item.get('url', 'Нет ссылки')}\n"
-                            )
-                            photo_url = "https:" + item.get('thumb_middle', '')  
-                            if photo_url:
-                                try:
-                                    await context.bot.send_photo(chat_id=update.effective_chat.id, photo=photo_url, caption=message)
-                                except Exception as e:
-                                    logger.error(f"Ошибка при отправке фото: {e}")
-                                    await update.message.reply_text(message)
-                            else:
+
+                    if items is None:
+                        await update.message.reply_text("Ошибка: Пустой ответ от сервера.")
+                        logger.error("Ответ от API не содержит данных.")
+                        return
+
+                    for item in items:
+                        await save_product_for_user(item, user_id)
+                        message = (
+                            f"Название товара: {item.get('name', 'Нет названия')}\n"
+                            f"Выручка: {item.get('revenue', 'Нет данных')}\n"
+                            f"Дата первого отзыва: {item.get('firstcommentdate', 'Нет данных')}\n"
+                            f"Артикул: {item.get('id', 'Нет артикула')}\n"
+                            f"Ссылка на товар: {item.get('url', 'Нет ссылки')}\n"
+                        )
+                        photo_url = "https:" + item.get('thumb_middle', '') if item.get('thumb_middle') else None
+                        if photo_url:
+                            try:
+                                await context.bot.send_photo(chat_id=update.effective_chat.id, photo=photo_url, caption=message)
+                            except Exception as e:
+                                logger.error(f"Ошибка при отправке фото: {e}")
                                 await update.message.reply_text(message)
-                            await asyncio.sleep(1.5)
-                    else:
-                        await update.message.reply_text("Товары не найдены.")
+                        else:
+                            await update.message.reply_text(message)
+                        await asyncio.sleep(1.5)
                 else:
                     await update.message.reply_text(f"Ошибка: {response.status}\n{await response.text()}")
 
     logger.info(f"make_mpstats_request завершен для user_id={user_id}")
+
 
             
 
