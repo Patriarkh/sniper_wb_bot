@@ -5,3 +5,4 @@ venv
 products.db
 .DS_Store
 .vscode
+settings.py
