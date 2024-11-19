@@ -30,6 +30,32 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+
+async def broadcast_message(context: CallbackContext, message_text: str):
+    async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
+        cursor = await db.execute('SELECT chat_id FROM users')
+        users = await cursor.fetchall()
+
+        for user in users:
+            chat_id = user[0]
+            try:
+                await context.bot.send_message(chat_id=chat_id, text=message_text)
+            except Exception as e:
+                logger.error(f"Ошибка при отправке сообщения пользователю с chat_id {chat_id}: {str(e)}")
+
+
+async def broadcast_command(update: Update, context: CallbackContext):
+    if update.effective_user.id == 380441767:  # Замените на ваш Telegram ID
+        if context.args:
+            message_text = " ".join(context.args)
+            await broadcast_message(context, message_text)
+            await update.message.reply_text("Рассылка запущена!")
+        else:
+            await update.message.reply_text("Пожалуйста, введите сообщение после команды /broadcast.")
+    else:
+        await update.message.reply_text("У вас нет прав на выполнение этой команды.")
+
+
 #Функция для удаления фильтров
 @subscription_required
 async def delete_filters(update: Update, context: CallbackContext):
@@ -43,8 +69,6 @@ async def delete_filters(update: Update, context: CallbackContext):
 async def check(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     await context.bot.send_message(chat_id=chat_id, text="Бот запущен")
-
-
 
 
 
@@ -122,6 +146,7 @@ async def main() -> None:
     application.add_handler(CommandHandler('check', check))
     application.add_handler(CommandHandler('delete', delete_filters))
     application.add_handler(CommandHandler("start_request", handle_request))
+    application.add_handler(CommandHandler("broadcast", broadcast_command))
     application.add_error_handler(lambda update, context: logger.error(f"Произошла ошибка: {context.error}"))
 
 
