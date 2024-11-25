@@ -59,10 +59,12 @@ async def broadcast_command(update: Update, context: CallbackContext):
 #Функция для удаления фильтров
 @subscription_required
 async def delete_filters(update: Update, context: CallbackContext):
+    """
+    Очищает данные пользователя, включая товары, диапазон выручки и даты, но оставляет API-ключ.
+    """
     user_id = update.effective_user.id
     await delete_user_data(user_id)
-    await update.message.reply_text("Ваши фильтры и данные успешно удалены. Чтобы сформировать новую базу данных введите /start_bot")
-
+    await update.message.reply_text("Ваши товары и фильтры успешно удалены. Для создания новых фильтров введите /start_bot.")
 
 # Функция для проверки запуска бота
 @subscription_required

@@ -43,10 +43,22 @@ async def save_product_for_user(item, user_id):
         await db.commit()
 
 async def delete_user_data(user_id):
+    """
+    Очищает данные пользователя, включая товары, даты, минимальную и максимальную выручку,
+    но оставляет API-ключ.
+    """
     async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
+        # Удаляем товары пользователя
         await db.execute('DELETE FROM products WHERE user_id = ?', (user_id,))
-        #await db.execute('DELETE FROM users WHERE user_id = ?', (user_id,))
+        # Очищаем даты и диапазоны выручки в таблице users
+        await db.execute('''
+            UPDATE users
+            SET revenue_min = NULL, revenue_max = NULL
+            WHERE user_id = ?
+        ''', (user_id,))
+        # Сохраняем изменения
         await db.commit()
+        print(f"Данные пользователя с user_id={user_id}, кроме API-ключа, успешно очищены.")
 
 
 
