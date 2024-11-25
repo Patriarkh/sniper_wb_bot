@@ -1,4 +1,8 @@
+import logging
 import aiosqlite
+from telegram.error import Forbidden
+
+logger = logging.getLogger(__name__)
 
 async def init_db():
     async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
@@ -64,6 +68,7 @@ async def delete_user_data(user_id):
         # Сохраняем изменения
         await db.commit()
         logger.info(f"Данные для user_id={user_id} успешно удалены")
+
 
 
 
