@@ -27,16 +27,14 @@ async def check_for_new_items(context: CallbackContext, chat_id, user_id) -> Non
             text="API-ключ не найден. Пожалуйста, зарегистрируйте его командой /start"
         )
         return
-    """Функция для проверки новых товаров и добавления их в базу данных."""
-    logger.info(f"Начало проверки новых товаров для пользователя {user_id} в чате {chat_id}")
 
     async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
         cursor = await db.execute('SELECT revenue_min, revenue_max FROM users WHERE user_id = ?', (user_id,))
         user_data = await cursor.fetchone()
 
-        if not user_data:
-            await log_message(context, chat_id=chat_id, message="Данные пользователя не найдены.")
-            logger.warning(f"Данные пользователя {user_id} не найдены.")
+        if not user_data or user_data[0] is None or user_data[1] is None:
+            await log_message(context, chat_id=chat_id, message="Ваши фильтры не настроены. Проверьте настройки.")
+            logger.warning(f"Фильтры не настроены для пользователя {user_id}. Пропускаем выполнение.")
             return
 
         revenue_min, revenue_max = user_data
