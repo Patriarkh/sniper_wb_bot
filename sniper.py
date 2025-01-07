@@ -16,7 +16,7 @@ from get_member import check_subscription, subscription_required
 from database_utils import delete_user_data
 from reg_api_mpstat import register_api_key, save_api_key
 from handle_request import handle_request
-from check_dostup import access_restricted
+#from check_dostup import access_restricted
 
 
 
@@ -83,7 +83,7 @@ async def check(update: Update, context: CallbackContext):
 
 
 # Ежедневная проверка по базе данных
-@access_restricted
+#@access_restricted
 async def schedule_daily_check(context: CallbackContext):
     async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
         cursor = await db.execute('SELECT user_id, username, chat_id, created_at FROM users')
@@ -121,7 +121,6 @@ SET_ITEMS, SET_DATE, SET_REVENUE = range(3)
 
 #Константа для регистрации аи ключа
 ENTER_API_KEY = 4
-@access_restricted
 async def main() -> None:
     logger.info("Инициализация базы данных...")
     await init_db()

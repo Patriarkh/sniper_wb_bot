@@ -19,7 +19,7 @@ last_30_days_from_today = (datetime.datetime.today() - datetime.timedelta(days=3
 
 
 
-@access_restricted
+#@access_restricted
 async def check_for_new_items(context: CallbackContext, chat_id, user_id) -> None:
     api_key = await get_user_api_key(user_id)
     if not api_key:

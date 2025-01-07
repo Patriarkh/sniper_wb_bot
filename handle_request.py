@@ -1,9 +1,9 @@
 from telegram import Update
 from telegram.ext import CallbackContext 
 from common import make_mpstats_request
-from check_dostup import access_restricted
+#from check_dostup import access_restricted
 
-@access_restricted
+#@access_restricted
 async def handle_request(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     count = context.user_data.get('count', 100)
