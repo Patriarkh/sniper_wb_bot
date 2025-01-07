@@ -9,7 +9,7 @@ import datetime
 import aiosqlite
 from helpers import send_long_message, log_message
 from database_utils import save_product_for_user, get_user_api_key
-from sniper import access_restricted
+from check_dostup import access_restricted
 
 # Настройка логирования
 logger = logging.getLogger(__name__)

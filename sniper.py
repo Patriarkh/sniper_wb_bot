@@ -16,8 +16,7 @@ from get_member import check_subscription, subscription_required
 from database_utils import delete_user_data
 from reg_api_mpstat import register_api_key, save_api_key
 from handle_request import handle_request
-from functools import wraps
-
+from check_dostup import access_restricted
 
 
 
@@ -35,17 +34,8 @@ logger = logging.getLogger(__name__)
 ALLOWED_USER_ID = 380441767
 
 
-# Декоратор для ограничения доступа
-def access_restricted(func):
-    @wraps(func)
-    async def wrapped(update: Update, context: CallbackContext, *args, **kwargs):
-        if update.effective_user.id != ALLOWED_USER_ID:
-            await update.message.reply_text("У вас нет подписки. Напишите @nikiraikov")
-            return
-        return await func(update, context, *args, **kwargs)
-    return wrapped
 
-@access_restricted
+
 async def clear_database_command(update: Update, context: CallbackContext):
     await purge_database_except_user()
     await update.message.reply_text("База данных очищена для всех пользователей, кроме указанного.")
