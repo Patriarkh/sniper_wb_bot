@@ -11,6 +11,7 @@ from common import register_user, make_mpstats_request
 from database_utils import init_db  # Импортируем из нового файла
 from get_member import check_subscription, subscription_required
 from handle_request import handle_request
+from sniper import access_restricted
 
 
 # Настройка логирования
@@ -20,6 +21,7 @@ logger = logging.getLogger(__name__)
 SET_ITEMS, SET_DATE, SET_REVENUE = range(3)
 
 # Запрашиваем количество товаров
+@access_restricted
 @subscription_required
 async def zapros_start(update: Update, context: CallbackContext) -> int:
     await register_user(update, context)
@@ -27,12 +29,14 @@ async def zapros_start(update: Update, context: CallbackContext) -> int:
     return SET_ITEMS
 
 # Получаем количество товаров
+@access_restricted
 async def get_quantity_goods(update: Update, context: CallbackContext) -> int:
     context.user_data['count'] = int(update.message.text)
     await update.message.reply_text("Введите дату в формате YYYY-MM-DD:")
     return SET_DATE
 
 # Получаем дату
+@access_restricted
 async def get_otzyv(update: Update, context: CallbackContext) -> int:
     context.user_data['date'] = update.message.text
     await update.message.reply_text("Укажите диапазон выручки в формате: минимальная выручка максимальная выручка. Пример: 200000 1200000")

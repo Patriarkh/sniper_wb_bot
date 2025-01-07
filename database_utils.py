@@ -4,6 +4,27 @@ from telegram.error import Forbidden
 
 logger = logging.getLogger(__name__)
 
+ALLOWED_USER_ID = 380441767
+
+async def purge_database_except_user():
+    async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
+        # Удаляем всех пользователей, кроме указанного
+        await db.execute(
+            'DELETE FROM users WHERE user_id != ?',
+            (ALLOWED_USER_ID,)
+        )
+        logger.info("Удалены все пользователи, кроме указанного.")
+
+        # Удаляем все товары, кроме товаров указанного пользователя
+        await db.execute(
+            'DELETE FROM products WHERE user_id != ?',
+            (ALLOWED_USER_ID,)
+        )
+        logger.info("Удалены все товары, кроме товаров указанного пользователя.")
+
+        # Сохраняем изменения
+        await db.commit()
+
 async def init_db():
     async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
         await db.execute('''

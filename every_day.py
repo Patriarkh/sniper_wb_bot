@@ -9,6 +9,7 @@ import datetime
 import aiosqlite
 from helpers import send_long_message, log_message
 from database_utils import save_product_for_user, get_user_api_key
+from sniper import access_restricted
 
 # Настройка логирования
 logger = logging.getLogger(__name__)
@@ -18,7 +19,7 @@ last_30_days_from_today = (datetime.datetime.today() - datetime.timedelta(days=3
 
 
 
-
+@access_restricted
 async def check_for_new_items(context: CallbackContext, chat_id, user_id) -> None:
     api_key = await get_user_api_key(user_id)
     if not api_key:

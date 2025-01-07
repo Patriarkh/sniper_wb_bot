@@ -11,11 +11,12 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 from formirovanie_zaprosa import zapros_start, get_quantity_goods, get_otzyv, get_diapazon_revenue, cancel, init_db
 from helpers import log_message
 from every_day import check_for_new_items
-from database_utils import init_db
+from database_utils import init_db, purge_database_except_user
 from get_member import check_subscription, subscription_required
 from database_utils import delete_user_data
 from reg_api_mpstat import register_api_key, save_api_key
 from handle_request import handle_request
+from functools import wraps
 
 
 
@@ -29,6 +30,25 @@ logging.basicConfig(
     ]
 )
 logger = logging.getLogger(__name__)
+
+# ID пользователя, которому разрешен доступ
+ALLOWED_USER_ID = 380441767
+
+
+# Декоратор для ограничения доступа
+def access_restricted(func):
+    @wraps(func)
+    async def wrapped(update: Update, context: CallbackContext, *args, **kwargs):
+        if update.effective_user.id != ALLOWED_USER_ID:
+            await update.message.reply_text("У вас нет подписки. Напишите @nikiraikov")
+            return
+        return await func(update, context, *args, **kwargs)
+    return wrapped
+
+@access_restricted
+async def clear_database_command(update: Update, context: CallbackContext):
+    await purge_database_except_user()
+    await update.message.reply_text("База данных очищена для всех пользователей, кроме указанного.")
 
 
 async def broadcast_message(context: CallbackContext, message_text: str):
@@ -73,6 +93,7 @@ async def check(update: Update, context: CallbackContext):
 
 
 # Ежедневная проверка по базе данных
+@access_restricted
 async def schedule_daily_check(context: CallbackContext):
     async with aiosqlite.connect('/root/sniper_wb_bot/products.db') as db:
         cursor = await db.execute('SELECT user_id, username, chat_id, created_at FROM users')
@@ -110,7 +131,7 @@ SET_ITEMS, SET_DATE, SET_REVENUE = range(3)
 
 #Константа для регистрации аи ключа
 ENTER_API_KEY = 4
-
+@access_restricted
 async def main() -> None:
     logger.info("Инициализация базы данных...")
     await init_db()
@@ -147,6 +168,7 @@ async def main() -> None:
     application.add_handler(CommandHandler('delete', delete_filters))
     application.add_handler(CommandHandler("start_request", handle_request))
     application.add_handler(CommandHandler("broadcast", broadcast_command))
+    application.add_handler(CommandHandler("clear_database", clear_database_command))
     application.add_error_handler(lambda update, context: logger.error(f"Произошла ошибка: {context.error}"))
 
 
