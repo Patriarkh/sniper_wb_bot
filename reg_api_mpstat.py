@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 ENTER_API_KEY = 4
 
 #Регистрация личного апи ключа мпстата
-@subscription_required
+#@subscription_required
 async def register_api_key(update: Update, context: CallbackContext):
     await update.message.reply_text("Пожалуйста, введите ваш апи ключ мпстата:")
     return ENTER_API_KEY

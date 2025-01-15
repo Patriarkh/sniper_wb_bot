@@ -21,7 +21,7 @@ SET_ITEMS, SET_DATE, SET_REVENUE = range(3)
 
 # Запрашиваем количество товаров
 #@access_restricted
-@subscription_required
+#@subscription_required
 async def zapros_start(update: Update, context: CallbackContext) -> int:
     await register_user(update, context)
     await update.message.reply_text("Введите количество товаров (например, 10):")

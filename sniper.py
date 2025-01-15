@@ -54,20 +54,20 @@ async def broadcast_message(context: CallbackContext, message_text: str):
                 logger.error(f"Ошибка при отправке сообщения пользователю с chat_id {chat_id}: {str(e)}")
 
 
-async def broadcast_command(update: Update, context: CallbackContext):
-    if update.effective_user.id == 380441767:  # Замените на ваш Telegram ID
-        if context.args:
-            message_text = " ".join(context.args)
-            await broadcast_message(context, message_text)
-            await update.message.reply_text("Рассылка запущена!")
-        else:
-            await update.message.reply_text("Пожалуйста, введите сообщение после команды /broadcast.")
-    else:
-        await update.message.reply_text("У вас нет прав на выполнение этой команды.")
+#async def broadcast_command(update: Update, context: CallbackContext):
+    #if update.effective_user.id == 380441767:  # Замените на ваш Telegram ID
+     #   if context.args:
+      #      message_text = " ".join(context.args)
+       #     await broadcast_message(context, message_text)
+        #    await update.message.reply_text("Рассылка запущена!")
+        #else:
+#            await update.message.reply_text("Пожалуйста, введите сообщение после команды /broadcast.")
+ #   else:
+  #      await update.message.reply_text("У вас нет прав на выполнение этой команды.")
 
 
 #Функция для удаления фильтров
-@subscription_required
+#@subscription_required
 async def delete_filters(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     logger.info(f"Команда /delete вызвана для user_id={user_id}")
@@ -75,7 +75,7 @@ async def delete_filters(update: Update, context: CallbackContext):
     await update.message.reply_text("Ваши товары и фильтры успешно удалены. Для создания новых фильтров введите /start_bot.")
 
 # Функция для проверки запуска бота
-@subscription_required
+#@subscription_required
 async def check(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     await context.bot.send_message(chat_id=chat_id, text="Бот запущен")
@@ -156,7 +156,7 @@ async def main() -> None:
     application.add_handler(CommandHandler('check', check))
     application.add_handler(CommandHandler('delete', delete_filters))
     application.add_handler(CommandHandler("start_request", handle_request))
-    application.add_handler(CommandHandler("broadcast", broadcast_command))
+    #application.add_handler(CommandHandler("broadcast", broadcast_command))
     application.add_handler(CommandHandler("clear_database", clear_database_command))
     application.add_error_handler(lambda update, context: logger.error(f"Произошла ошибка: {context.error}"))
 
